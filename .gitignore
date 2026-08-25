@@ -55,3 +55,8 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+/.vs
+*.db
+*.db-shm
+*.db-wal
+/src/FunPortal.Api/FunPortal.Api.csproj.user

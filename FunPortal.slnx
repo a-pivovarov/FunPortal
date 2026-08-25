@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/FunPortal.Api/FunPortal.Api.csproj" Id="224f82a4-4a32-42cc-b48d-f9c393745ae0" />
+    <Project Path="src/FunPortal.Application/FunPortal.Application.csproj" Id="bc8cbb22-8715-4a82-b660-2d732c764393" />
+    <Project Path="src/FunPortal.Domain/FunPortal.Domain.csproj" Id="c7488752-1817-495b-9c4c-8147e040861e" />
+    <Project Path="src/FunPortal.Infrastructure/FunPortal.Infrastructure.csproj" Id="9852f04e-acd2-48b7-847c-56337027911b" />
+  </Folder>
+</Solution>
