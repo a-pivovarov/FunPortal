@@ -1,7 +1,7 @@
 ﻿using FunPortal.Application.DTOs.PurchaseOrders;
 using FunPortal.Application.Interfaces.Persistence;
 using FunPortal.Application.Interfaces.Repositories;
-using FunPortal.Application.PurchaseOrders.Processing;
+using FunPortal.Application.PurchaseOrders.Commands.Processing;
 using FunPortal.Domain.Entities;
 using FunPortal.Domain.Entities.Products;
 using FunPortal.Domain.Enums;
@@ -38,9 +38,23 @@ public class ProcessPurchaseOrderCommandHandler(
         }
 
         // Create purchase order
+        var purchaseOrder = CreatePurchaceOrder(command.Request, productDict);
+
+        // Process the purchase order (save, apply business rules, etc.)
+        return await ProcessPurchaceOrderAsync(
+            purchaseOrder,
+            productDict,
+            cancellationToken);
+    }
+
+    private static PurchaseOrder CreatePurchaceOrder(
+        CreatePurchaseOrderRequest request,
+        Dictionary<int, Product> productDict)
+    {
+        // Create purchase order
         var purchaseOrder = new PurchaseOrder
         {
-            CustomerId = command.Request.CustomerId,
+            CustomerId = request.CustomerId,
             OrderedOn = DateTime.UtcNow,
             Status = OrderStatus.Processing,
             ItemLines = []
@@ -48,7 +62,7 @@ public class ProcessPurchaseOrderCommandHandler(
 
         // Calculate total price and populate item lines
         decimal totalPrice = 0;
-        foreach (var item in command.Request.Items)
+        foreach (var item in request.Items)
         {
             var product = productDict[item.ProductId];
             var lineTotal = product.Price * item.Quantity;
@@ -65,6 +79,14 @@ public class ProcessPurchaseOrderCommandHandler(
 
         purchaseOrder.TotalPrice = totalPrice;
 
+        return purchaseOrder;
+    }
+
+    private async Task<PurchaseOrderResponse> ProcessPurchaceOrderAsync(
+        PurchaseOrder purchaseOrder,
+        Dictionary<int, Product> productDict,
+        CancellationToken cancellationToken)
+    {
         await unitOfWork.BeginTransactionAsync(cancellationToken);
         try
         {

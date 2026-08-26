@@ -2,7 +2,7 @@ using FunPortal.Application.Interfaces.Services;
 using FunPortal.Domain.Entities.Products;
 using FunPortal.Domain.Enums;
 
-namespace FunPortal.Application.PurchaseOrders.Processing.Rules;
+namespace FunPortal.Application.PurchaseOrders.Commands.Processing.Rules;
 
 /// <summary>
 /// Business rule that activates memberships for membership products in the order.
@@ -37,7 +37,8 @@ public class ActivateMembershipRule(
         foreach (var membershipItem in membershipItems)
         {
             var membershipProduct = (MembershipProduct)context.Products[membershipItem.ProductId];
-            var membership = await membershipActivationService.ActivateMembershipAsync(
+            
+            await membershipActivationService.ActivateMembershipAsync(
                 context.Order.CustomerId,
                 membershipProduct.MembershipType,
                 membershipProduct.DurationMonths,

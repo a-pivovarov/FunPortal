@@ -1,7 +1,7 @@
 using FunPortal.Domain.Entities;
 using FunPortal.Domain.Entities.Products;
 
-namespace FunPortal.Application.PurchaseOrders.Processing;
+namespace FunPortal.Application.PurchaseOrders.Commands.Processing;
 
 /// <summary>
 /// Context object passed through the purchase order processing pipeline.

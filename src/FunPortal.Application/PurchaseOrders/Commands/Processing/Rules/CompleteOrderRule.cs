@@ -1,6 +1,6 @@
 using FunPortal.Domain.Enums;
 
-namespace FunPortal.Application.PurchaseOrders.Processing.Rules;
+namespace FunPortal.Application.PurchaseOrders.Commands.Processing.Rules;
 
 /// <summary>
 /// Business rule that marks the order as completed after all other rules have executed.

@@ -5,4 +5,8 @@
     <Project Path="src/FunPortal.Domain/FunPortal.Domain.csproj" Id="c7488752-1817-495b-9c4c-8147e040861e" />
     <Project Path="src/FunPortal.Infrastructure/FunPortal.Infrastructure.csproj" Id="9852f04e-acd2-48b7-847c-56337027911b" />
   </Folder>
+  <Folder Name="/tests/" />
+  <Folder Name="/tests/UnitTests/">
+    <Project Path="tests/UnitTests/FunPortal.Application.Tests/FunPortal.Application.Tests.csproj" Id="a8dc8469-99c6-47a9-8444-2564fce69125" />
+  </Folder>
 </Solution>

@@ -1,7 +1,7 @@
 using FunPortal.Application.Interfaces.Services;
 using FunPortal.Domain.Enums;
 
-namespace FunPortal.Application.PurchaseOrders.Processing.Rules;
+namespace FunPortal.Application.PurchaseOrders.Commands.Processing.Rules;
 
 /// <summary>
 /// Business rule that generates shipping slips for physical products in the order.
@@ -36,7 +36,7 @@ public class GenerateShippingSlipRule(
 
         if (physicalItems.Any())
         {
-            var shippingSlip = await shippingSlipGenerationService.GenerateShippingSlipAsync(
+            await shippingSlipGenerationService.GenerateShippingSlipAsync(
                 context.Order,
                 physicalItems,
                 cancellationToken);

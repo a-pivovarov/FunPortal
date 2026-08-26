@@ -1,4 +1,4 @@
-namespace FunPortal.Application.PurchaseOrders.Processing;
+namespace FunPortal.Application.PurchaseOrders.Commands.Processing;
 
 /// <summary>
 /// Represents a business rule that can be applied during purchase order processing.

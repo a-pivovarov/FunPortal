@@ -2,8 +2,8 @@
 using FunPortal.Application.Behaviors;
 using FunPortal.Application.Interfaces.Repositories;
 using FunPortal.Application.Interfaces.Services;
-using FunPortal.Application.PurchaseOrders.Processing;
-using FunPortal.Application.PurchaseOrders.Processing.Rules;
+using FunPortal.Application.PurchaseOrders.Commands.Processing;
+using FunPortal.Application.PurchaseOrders.Commands.Processing.Rules;
 using FunPortal.Infrastructure.Repositories;
 using FunPortal.Infrastructure.Services;
 using MediatR;
