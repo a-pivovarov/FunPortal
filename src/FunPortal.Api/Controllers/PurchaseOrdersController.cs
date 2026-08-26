@@ -22,12 +22,12 @@ public class PurchaseOrdersController(IMediator mediator) : ControllerBase
     [ProducesResponseType(typeof(PurchaseOrderResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<PurchaseOrderResponse>> Create(
+    public async Task<ActionResult<PurchaseOrderResponse>> CreateAsync(
         [FromBody] CreatePurchaseOrderRequest request,
         CancellationToken cancellationToken)
     {
         var result = await mediator.Send(new ProcessPurchaseOrderCommand(request), cancellationToken);
-        return CreatedAtAction(nameof(GetById), new { id = result.PurchaseOrderId }, result);
+        return Ok(result);
     }
 
     /// <summary>
@@ -36,7 +36,7 @@ public class PurchaseOrdersController(IMediator mediator) : ControllerBase
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(PurchaseOrderResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<PurchaseOrderResponse>> GetById(
+    public async Task<ActionResult<PurchaseOrderResponse>> GetByIdAsync(
         int id,
         CancellationToken cancellationToken)
     {
@@ -53,7 +53,7 @@ public class PurchaseOrdersController(IMediator mediator) : ControllerBase
     /// </summary>
     [HttpGet("customer/{customerId}")]
     [ProducesResponseType(typeof(IReadOnlyCollection<PurchaseOrderResponse>), StatusCodes.Status200OK)]
-    public async Task<ActionResult<IReadOnlyCollection<PurchaseOrderResponse>>> GetByCustomer(
+    public async Task<ActionResult<IReadOnlyCollection<PurchaseOrderResponse>>> GetByCustomerAsync(
         int customerId,
         CancellationToken cancellationToken)
     {

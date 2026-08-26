@@ -15,8 +15,8 @@ public class ProductsController(IMediator mediator) : ControllerBase
     /// Get all products, optionally filtered by type
     /// </summary>
     [HttpGet]
-    [ProducesResponseType(typeof(IEnumerable<ProductDto>), StatusCodes.Status200OK)]
-    public async Task<ActionResult<IEnumerable<ProductDto>>> GetAll(
+    [ProducesResponseType(typeof(IReadOnlyCollection<ProductDto>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<IReadOnlyCollection<ProductDto>>> GetAllAsync(
         [FromQuery] ProductType? type,
         CancellationToken cancellationToken)
     {
@@ -30,7 +30,7 @@ public class ProductsController(IMediator mediator) : ControllerBase
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(ProductDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<ProductDto>> GetById(
+    public async Task<ActionResult<ProductDto>> GetByIdAsync(
         int id,
         CancellationToken cancellationToken)
     {
@@ -48,12 +48,12 @@ public class ProductsController(IMediator mediator) : ControllerBase
     [HttpPost]
     [ProducesResponseType(typeof(ProductDto), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<ProductDto>> Create(
+    public async Task<ActionResult<ProductDto>> CreateAsync(
         [FromBody] CreateProductRequest request,
         CancellationToken cancellationToken)
     {
         var result = await mediator.Send(new CreateProductCommand(request), cancellationToken);
-        return CreatedAtAction(nameof(GetById), new { id = result.ProductId }, result);
+        return CreatedAtAction(nameof(GetByIdAsync), new { id = result.ProductId }, result);
     }
 
     /// <summary>
@@ -63,7 +63,7 @@ public class ProductsController(IMediator mediator) : ControllerBase
     [ProducesResponseType(typeof(ProductDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<ProductDto>> Update(
+    public async Task<ActionResult<ProductDto>> UpdateAsync(
         int id,
         [FromBody] UpdateProductRequest request,
         CancellationToken cancellationToken)
@@ -78,7 +78,7 @@ public class ProductsController(IMediator mediator) : ControllerBase
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Delete(
+    public async Task<IActionResult> DeleteAsync(
         int id,
         CancellationToken cancellationToken)
     {

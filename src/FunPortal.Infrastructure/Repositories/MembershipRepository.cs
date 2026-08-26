@@ -14,9 +14,9 @@ public class MembershipRepository(FunPortalDbContext context) : IMembershipRepos
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<Membership> AddAsync(Membership membership, CancellationToken cancellationToken)
+    public Membership Add(Membership membership)
     {
         context.Memberships.Add(membership);
-        return await Task.FromResult(membership);
+        return membership;
     }
 }

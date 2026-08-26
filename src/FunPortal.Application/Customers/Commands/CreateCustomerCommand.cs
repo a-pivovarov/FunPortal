@@ -1,6 +1,7 @@
 using FunPortal.Application.DTOs.Customers;
 using FunPortal.Application.Interfaces.Persistence;
 using FunPortal.Application.Interfaces.Repositories;
+using FunPortal.Application.Mappers;
 using FunPortal.Domain.Entities;
 using MediatR;
 
@@ -31,17 +32,9 @@ public class CreateCustomerCommandHandler(
             CreatedOn = DateTime.UtcNow
         };
 
-        var created = await customerRepository.AddAsync(customer, cancellationToken);
+        var created = customerRepository.Add(customer);
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return new CustomerDto
-        {
-            CustomerId = created.CustomerId,
-            Name = created.Name,
-            Email = created.Email,
-            Phone = created.Phone,
-            Address = created.Address,
-            CreatedOn = created.CreatedOn
-        };
+        return created.ToCustomerDto();
     }
 }

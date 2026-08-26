@@ -23,15 +23,14 @@ public class PurchaseOrderRepository(FunPortalDbContext context) : IPurchaseOrde
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<PurchaseOrder> AddAsync(PurchaseOrder purchaseOrder, CancellationToken cancellationToken)
+    public PurchaseOrder Add(PurchaseOrder purchaseOrder)
     {
         context.PurchaseOrders.Add(purchaseOrder);
-        return await Task.FromResult(purchaseOrder);
+        return purchaseOrder;
     }
 
-    public async Task<PurchaseOrder> UpdateAsync(PurchaseOrder purchaseOrder, CancellationToken cancellationToken)
+    public void Update(PurchaseOrder purchaseOrder)
     {
         context.PurchaseOrders.Update(purchaseOrder);
-        return await Task.FromResult(purchaseOrder);
     }
 }

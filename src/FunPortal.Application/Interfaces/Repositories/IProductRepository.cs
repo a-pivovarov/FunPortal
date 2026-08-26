@@ -9,9 +9,9 @@ public interface IProductRepository
 
     Task<IEnumerable<Product>> GetAllAsync(ProductType? productType, CancellationToken cancellationToken);
 
-    Task<Product> AddAsync(Product product, CancellationToken cancellationToken);
+    Product Add(Product product);
 
-    Task UpdateAsync(Product product, CancellationToken cancellationToken);
+    void Update(Product product);
 
     Task DeleteAsync(int productId, CancellationToken cancellationToken);
 

@@ -1,5 +1,6 @@
 using FluentValidation;
 using FunPortal.Application.DTOs.Products;
+using FunPortal.Application.Products.Commands;
 using FunPortal.Domain.Enums;
 
 namespace FunPortal.Application.Validators.Products;
@@ -79,5 +80,25 @@ public class UpdateProductRequestValidator : AbstractValidator<UpdateProductRequ
         RuleFor(x => x.DurationMinutes)
             .GreaterThan(0).WithMessage("Duration must be greater than 0")
             .When(x => x.DurationMinutes.HasValue);
+    }
+}
+
+public class CreateProductCommandValidator : AbstractValidator<CreateProductCommand>
+{
+    public CreateProductCommandValidator()
+    {
+        RuleFor(x => x.Request)
+            .NotNull()
+            .SetValidator(new CreateProductRequestValidator());
+    }
+}
+
+public class UpdateProductCommandValidator : AbstractValidator<UpdateProductCommand>
+{
+    public UpdateProductCommandValidator()
+    {
+        RuleFor(x => x.Request)
+            .NotNull()
+            .SetValidator(new UpdateProductRequestValidator());
     }
 }

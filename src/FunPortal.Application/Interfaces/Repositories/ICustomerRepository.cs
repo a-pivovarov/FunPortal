@@ -10,9 +10,9 @@ public interface ICustomerRepository
 
     Task<IEnumerable<Customer>> GetAllAsync(CancellationToken cancellationToken);
 
-    Task<Customer> AddAsync(Customer customer, CancellationToken cancellationToken);
+    Customer Add(Customer customer);
 
-    Task UpdateAsync(Customer customer, CancellationToken cancellationToken);
+    void Update(Customer customer);
 
     Task DeleteAsync(int customerId, CancellationToken cancellationToken);
 

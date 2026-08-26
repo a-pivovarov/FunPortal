@@ -9,12 +9,14 @@ public class CustomerRepository(FunPortalDbContext context) : ICustomerRepositor
 {
     public async Task<Customer?> GetByIdAsync(int customerId, CancellationToken cancellationToken)
     {
-        return await context.Customers.SingleOrDefaultAsync(c => c.CustomerId == customerId, cancellationToken);
+        return await context.Customers
+            .SingleOrDefaultAsync(c => c.CustomerId == customerId, cancellationToken);
     }
 
     public async Task<Customer?> GetByEmailAsync(string customerEmail, CancellationToken cancellationToken)
     {
-        return await context.Customers.SingleOrDefaultAsync(c => c.Email == customerEmail, cancellationToken);
+        return await context.Customers
+            .SingleOrDefaultAsync(c => c.Email == customerEmail, cancellationToken);
     }
 
     public async Task<IEnumerable<Customer>> GetAllAsync(CancellationToken cancellationToken)
@@ -22,16 +24,15 @@ public class CustomerRepository(FunPortalDbContext context) : ICustomerRepositor
         return await context.Customers.ToListAsync(cancellationToken);
     }
 
-    public async Task<Customer> AddAsync(Customer customer, CancellationToken cancellationToken)
+    public Customer Add(Customer customer)
     {
         context.Customers.Add(customer);
-        return await Task.FromResult(customer);
+        return customer;
     }
 
-    public async Task UpdateAsync(Customer customer, CancellationToken cancellationToken)
+    public void Update(Customer customer)
     {
         context.Customers.Update(customer);
-        await Task.CompletedTask;
     }
 
     public async Task DeleteAsync(int customerId, CancellationToken cancellationToken)
@@ -45,6 +46,7 @@ public class CustomerRepository(FunPortalDbContext context) : ICustomerRepositor
 
     public async Task<bool> ExistsAsync(int customerId, CancellationToken cancellationToken)
     {
-        return await context.Customers.AnyAsync(c => c.CustomerId == customerId, cancellationToken);
+        return await context.Customers
+            .AnyAsync(c => c.CustomerId == customerId, cancellationToken);
     }
 }

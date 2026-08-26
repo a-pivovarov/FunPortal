@@ -1,39 +1,24 @@
 ﻿using FunPortal.Application.DTOs.PurchaseOrders;
 using FunPortal.Application.Interfaces.Repositories;
+using FunPortal.Application.Mappers;
 using MediatR;
 
 namespace FunPortal.Application.PurchaseOrders.Queries;
 
-public record GetCustomerPurchaseOrdersQuery(int CustomerId) : IRequest<IEnumerable<PurchaseOrderResponse>>;
+public record GetCustomerPurchaseOrdersQuery(int CustomerId)
+    : IRequest<IReadOnlyCollection<PurchaseOrderResponse>>;
 
-public class GetCustomerPurchaseOrdersQueryHandler : IRequestHandler<GetCustomerPurchaseOrdersQuery, IEnumerable<PurchaseOrderResponse>>
+public class GetCustomerPurchaseOrdersQueryHandler(
+    IPurchaseOrderRepository purchaseOrderRepository)
+    : IRequestHandler<GetCustomerPurchaseOrdersQuery, IReadOnlyCollection<PurchaseOrderResponse>>
 {
-    private readonly IPurchaseOrderRepository _purchaseOrderRepository;
-
-    public GetCustomerPurchaseOrdersQueryHandler(IPurchaseOrderRepository purchaseOrderRepository)
+    public async Task<IReadOnlyCollection<PurchaseOrderResponse>> Handle(
+        GetCustomerPurchaseOrdersQuery query,
+        CancellationToken cancellationToken)
     {
-        _purchaseOrderRepository = purchaseOrderRepository;
-    }
+        var orders = await purchaseOrderRepository
+            .GetByCustomerIdAsync(query.CustomerId, cancellationToken);
 
-    public async Task<IEnumerable<PurchaseOrderResponse>> Handle(GetCustomerPurchaseOrdersQuery query, CancellationToken cancellationToken)
-    {
-        var orders = await _purchaseOrderRepository.GetByCustomerIdAsync(query.CustomerId, cancellationToken);
-
-        return orders.Select(o => new PurchaseOrderResponse
-        {
-            PurchaseOrderId = o.PurchaseOrderId,
-            CustomerId = o.CustomerId,
-            TotalPrice = o.TotalPrice,
-            OrderedOn = o.OrderedOn,
-            Status = o.Status,
-            Items = o.ItemLines.Select(il => new OrderItemLineDto
-            {
-                OrderItemLineId = il.OrderItemLineId,
-                ProductId = il.ProductId,
-                ProductName = il.ProductName,
-                Price = il.Price,
-                Quantity = il.Quantity
-            }).ToList()
-        });
+        return orders.ToPurchaseOrderResponses();
     }
 }

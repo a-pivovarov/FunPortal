@@ -1,5 +1,6 @@
 ﻿using FunPortal.Application.DTOs.Customers;
 using FunPortal.Application.Interfaces.Repositories;
+using FunPortal.Application.Mappers;
 using MediatR;
 
 namespace FunPortal.Application.Customers.Queries;
@@ -15,18 +16,9 @@ public class GetCustomerQueryHandler(
         CancellationToken cancellationToken)
     {
         var customer = await customerRepository.GetByIdAsync(query.CustomerId, cancellationToken);
-
         if (customer == null)
             return null;
 
-        return new CustomerDto
-        {
-            CustomerId = customer.CustomerId,
-            Name = customer.Name,
-            Email = customer.Email,
-            Phone = customer.Phone,
-            Address = customer.Address,
-            CreatedOn = customer.CreatedOn
-        };
+        return customer.ToCustomerDto();
     }
 }

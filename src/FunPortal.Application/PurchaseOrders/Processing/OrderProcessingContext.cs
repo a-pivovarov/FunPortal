@@ -20,12 +20,12 @@ public class OrderProcessingContext
     public required Dictionary<int, Product> Products { get; init; }
 
     /// <summary>
-    /// List of membership IDs that were activated during processing.
+    /// Count of memberships that were activated during processing.
     /// </summary>
-    public List<int> ActivatedMembershipIds { get; } = [];
+    public int ActivatedMembershipsCount { get; set; }
 
     /// <summary>
-    /// List of shipping slip IDs that were generated during processing.
+    /// Count of shipping slips that were generated during processing.
     /// </summary>
-    public List<int> GeneratedShippingSlipIds { get; } = [];
+    public int GeneratedShippingSlipsCount { get; set; }
 }

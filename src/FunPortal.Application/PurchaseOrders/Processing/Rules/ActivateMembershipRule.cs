@@ -7,15 +7,10 @@ namespace FunPortal.Application.PurchaseOrders.Processing.Rules;
 /// <summary>
 /// Business rule that activates memberships for membership products in the order.
 /// </summary>
-public class ActivateMembershipRule : IPurchaseOrderRule
+public class ActivateMembershipRule(
+    IMembershipActivationService membershipActivationService)
+    : IPurchaseOrderRule
 {
-    private readonly IMembershipActivationService _membershipActivationService;
-
-    public ActivateMembershipRule(IMembershipActivationService membershipActivationService)
-    {
-        _membershipActivationService = membershipActivationService;
-    }
-
     /// <summary>
     /// Memberships should be activated early in the process.
     /// </summary>
@@ -42,13 +37,13 @@ public class ActivateMembershipRule : IPurchaseOrderRule
         foreach (var membershipItem in membershipItems)
         {
             var membershipProduct = (MembershipProduct)context.Products[membershipItem.ProductId];
-            var membership = await _membershipActivationService.ActivateMembershipAsync(
+            var membership = await membershipActivationService.ActivateMembershipAsync(
                 context.Order.CustomerId,
                 membershipProduct.MembershipType,
                 membershipProduct.DurationMonths,
                 cancellationToken);
 
-            context.ActivatedMembershipIds.Add(membership.MembershipId);
+            context.ActivatedMembershipsCount++;
         }
     }
 }

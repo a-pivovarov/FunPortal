@@ -6,23 +6,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FunPortal.Infrastructure.Repositories;
 
-public class ProductRepository : IProductRepository
+public class ProductRepository(FunPortalDbContext context) : IProductRepository
 {
-    private readonly FunPortalDbContext _context;
-
-    public ProductRepository(FunPortalDbContext context)
-    {
-        _context = context;
-    }
-
     public async Task<Product?> GetByIdAsync(int productId, CancellationToken cancellationToken)
     {
-        return await _context.Products.SingleOrDefaultAsync(p => p.ProductId == productId, cancellationToken);
+        return await context.Products
+            .SingleOrDefaultAsync(p => p.ProductId == productId, cancellationToken);
     }
 
     public async Task<IEnumerable<Product>> GetAllAsync(ProductType? productType, CancellationToken cancellationToken)
     {
-        var query = _context.Products.AsQueryable();
+        var query = context.Products.AsQueryable();
 
         if (productType.HasValue)
         {
@@ -32,16 +26,15 @@ public class ProductRepository : IProductRepository
         return await query.ToListAsync(cancellationToken);
     }
 
-    public async Task<Product> AddAsync(Product product, CancellationToken cancellationToken)
+    public Product Add(Product product)
     {
-        _context.Products.Add(product);
-        return await Task.FromResult(product);
+        context.Products.Add(product);
+        return product;
     }
 
-    public async Task UpdateAsync(Product product, CancellationToken cancellationToken)
+    public void Update(Product product)
     {
-        _context.Products.Update(product);
-        await Task.CompletedTask;
+        context.Products.Update(product);
     }
 
     public async Task DeleteAsync(int productId, CancellationToken cancellationToken)
@@ -49,12 +42,13 @@ public class ProductRepository : IProductRepository
         var product = await GetByIdAsync(productId, cancellationToken);
         if (product != null)
         {
-            _context.Products.Remove(product);
+            context.Products.Remove(product);
         }
     }
 
     public async Task<bool> ExistsAsync(int productId, CancellationToken cancellationToken)
     {
-        return await _context.Products.AnyAsync(p => p.ProductId == productId, cancellationToken);
+        return await context.Products
+            .AnyAsync(p => p.ProductId == productId, cancellationToken);
     }
 }

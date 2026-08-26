@@ -8,7 +8,7 @@ public interface IPurchaseOrderRepository
 
     Task<IEnumerable<PurchaseOrder>> GetByCustomerIdAsync(int customerId, CancellationToken cancellationToken);
 
-    Task<PurchaseOrder> AddAsync(PurchaseOrder purchaseOrder, CancellationToken cancellationToken);
+    PurchaseOrder Add(PurchaseOrder purchaseOrder);
 
-    Task<PurchaseOrder> UpdateAsync(PurchaseOrder purchaseOrder, CancellationToken cancellationToken);
+    void Update(PurchaseOrder purchaseOrder);
 }

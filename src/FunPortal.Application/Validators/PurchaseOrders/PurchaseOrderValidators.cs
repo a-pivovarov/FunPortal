@@ -1,5 +1,6 @@
 using FluentValidation;
 using FunPortal.Application.DTOs.PurchaseOrders;
+using FunPortal.Application.PurchaseOrders.Commands;
 
 namespace FunPortal.Application.Validators.PurchaseOrders;
 
@@ -28,5 +29,15 @@ public class OrderItemDtoValidator : AbstractValidator<OrderItemDto>
         RuleFor(x => x.Quantity)
             .GreaterThan(0).WithMessage("Quantity must be greater than 0")
             .LessThanOrEqualTo(100).WithMessage("Quantity cannot exceed 100");
+    }
+}
+
+public class ProcessPurchaseOrderCommandValidator : AbstractValidator<ProcessPurchaseOrderCommand>
+{
+    public ProcessPurchaseOrderCommandValidator()
+    {
+        RuleFor(x => x.Request)
+            .NotNull()
+            .SetValidator(new CreatePurchaseOrderRequestValidator());
     }
 }

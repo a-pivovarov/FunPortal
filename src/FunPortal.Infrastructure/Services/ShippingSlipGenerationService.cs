@@ -5,21 +5,18 @@ using FunPortal.Domain.Enums;
 
 namespace FunPortal.Infrastructure.Services;
 
-public class ShippingSlipGenerationService : IShippingSlipGenerationService
+public class ShippingSlipGenerationService(
+    IShippingSlipRepository shippingSlipRepository)
+    : IShippingSlipGenerationService
 {
-    private readonly IShippingSlipRepository _shippingSlipRepository;
-
-    public ShippingSlipGenerationService(IShippingSlipRepository shippingSlipRepository)
-    {
-        _shippingSlipRepository = shippingSlipRepository;
-    }
-
     public async Task<ShippingSlip> GenerateShippingSlipAsync(
         PurchaseOrder purchaseOrder,
         IEnumerable<OrderItemLine> physicalItems,
         CancellationToken cancellationToken = default)
     {
-        var itemsDescription = string.Join(", ", physicalItems.Select(i => $"{i.ProductName} (Qty: {i.Quantity})"));
+        var itemsDescription = string.Join(
+            ", ",
+            physicalItems.Select(i => $"{i.ProductName} (Qty: {i.Quantity})"));
 
         var shippingSlip = new ShippingSlip
         {
@@ -30,6 +27,6 @@ public class ShippingSlipGenerationService : IShippingSlipGenerationService
             GeneratedOn = DateTime.UtcNow
         };
 
-        return await _shippingSlipRepository.AddAsync(shippingSlip, cancellationToken);
+        return shippingSlipRepository.Add(shippingSlip);
     }
 }

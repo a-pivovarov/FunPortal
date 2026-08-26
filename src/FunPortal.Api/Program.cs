@@ -41,15 +41,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "FunBooksAndVideos API v1");
-        c.RoutePrefix = string.Empty; // Set Swagger UI at app root
     });
 }
 
 app.UseExceptionHandler();
 
 app.UseHttpsRedirection();
-
-app.UseAuthorization();
 
 app.MapControllers();
 

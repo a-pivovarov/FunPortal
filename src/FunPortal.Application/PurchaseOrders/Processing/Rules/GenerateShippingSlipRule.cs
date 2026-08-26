@@ -6,15 +6,10 @@ namespace FunPortal.Application.PurchaseOrders.Processing.Rules;
 /// <summary>
 /// Business rule that generates shipping slips for physical products in the order.
 /// </summary>
-public class GenerateShippingSlipRule : IPurchaseOrderRule
+public class GenerateShippingSlipRule(
+    IShippingSlipGenerationService shippingSlipGenerationService)
+    : IPurchaseOrderRule
 {
-    private readonly IShippingSlipGenerationService _shippingSlipGenerationService;
-
-    public GenerateShippingSlipRule(IShippingSlipGenerationService shippingSlipGenerationService)
-    {
-        _shippingSlipGenerationService = shippingSlipGenerationService;
-    }
-
     /// <summary>
     /// Shipping slips should be generated after memberships.
     /// </summary>
@@ -41,12 +36,12 @@ public class GenerateShippingSlipRule : IPurchaseOrderRule
 
         if (physicalItems.Any())
         {
-            var shippingSlip = await _shippingSlipGenerationService.GenerateShippingSlipAsync(
+            var shippingSlip = await shippingSlipGenerationService.GenerateShippingSlipAsync(
                 context.Order,
                 physicalItems,
                 cancellationToken);
 
-            context.GeneratedShippingSlipIds.Add(shippingSlip.ShippingSlipId);
+            context.GeneratedShippingSlipsCount++;
         }
     }
 }

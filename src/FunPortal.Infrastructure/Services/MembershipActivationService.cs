@@ -5,15 +5,10 @@ using FunPortal.Domain.Enums;
 
 namespace FunPortal.Infrastructure.Services;
 
-public class MembershipActivationService : IMembershipActivationService
+public class MembershipActivationService(
+    IMembershipRepository membershipRepository)
+    : IMembershipActivationService
 {
-    private readonly IMembershipRepository _membershipRepository;
-
-    public MembershipActivationService(IMembershipRepository membershipRepository)
-    {
-        _membershipRepository = membershipRepository;
-    }
-
     public async Task<Membership> ActivateMembershipAsync(
         int customerId, 
         MembershipType membershipType, 
@@ -28,6 +23,6 @@ public class MembershipActivationService : IMembershipActivationService
             ExpiresAt = DateTime.UtcNow.AddMonths(durationMonths)
         };
 
-        return await _membershipRepository.AddAsync(membership, cancellationToken);
+        return membershipRepository.Add(membership);
     }
 }

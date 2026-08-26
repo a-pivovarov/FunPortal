@@ -19,9 +19,9 @@ public class ShippingSlipRepository(FunPortalDbContext context) : IShippingSlipR
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<ShippingSlip> AddAsync(ShippingSlip shippingSlip, CancellationToken cancellationToken)
+    public ShippingSlip Add(ShippingSlip shippingSlip)
     {
         context.ShippingSlips.Add(shippingSlip);
-        return await Task.FromResult(shippingSlip);
+        return shippingSlip;
     }
 }

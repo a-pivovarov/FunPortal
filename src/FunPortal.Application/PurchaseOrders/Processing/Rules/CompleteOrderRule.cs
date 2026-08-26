@@ -1,4 +1,3 @@
-using FunPortal.Application.Interfaces.Repositories;
 using FunPortal.Domain.Enums;
 
 namespace FunPortal.Application.PurchaseOrders.Processing.Rules;
@@ -6,15 +5,9 @@ namespace FunPortal.Application.PurchaseOrders.Processing.Rules;
 /// <summary>
 /// Business rule that marks the order as completed after all other rules have executed.
 /// </summary>
-public class CompleteOrderRule : IPurchaseOrderRule
+public class CompleteOrderRule
+    : IPurchaseOrderRule
 {
-    private readonly IPurchaseOrderRepository _purchaseOrderRepository;
-
-    public CompleteOrderRule(IPurchaseOrderRepository purchaseOrderRepository)
-    {
-        _purchaseOrderRepository = purchaseOrderRepository;
-    }
-
     /// <summary>
     /// This rule should execute last to mark the order as completed.
     /// </summary>
@@ -34,6 +27,5 @@ public class CompleteOrderRule : IPurchaseOrderRule
     public async Task ExecuteAsync(OrderProcessingContext context, CancellationToken cancellationToken)
     {
         context.Order.Status = OrderStatus.Completed;
-        await _purchaseOrderRepository.UpdateAsync(context.Order, cancellationToken);
     }
 }

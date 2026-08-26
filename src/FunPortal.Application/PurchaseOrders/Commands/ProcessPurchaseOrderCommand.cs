@@ -9,7 +9,8 @@ using MediatR;
 
 namespace FunPortal.Application.PurchaseOrders.Commands;
 
-public record ProcessPurchaseOrderCommand(CreatePurchaseOrderRequest Request) : IRequest<PurchaseOrderResponse>;
+public record ProcessPurchaseOrderCommand(CreatePurchaseOrderRequest Request)
+    : IRequest<PurchaseOrderResponse>;
 
 public class ProcessPurchaseOrderCommandHandler(
     IPurchaseOrderRepository purchaseOrderRepository,
@@ -42,9 +43,10 @@ public class ProcessPurchaseOrderCommandHandler(
             CustomerId = command.Request.CustomerId,
             OrderedOn = DateTime.UtcNow,
             Status = OrderStatus.Processing,
-            ItemLines = new List<OrderItemLine>()
+            ItemLines = []
         };
 
+        // Calculate total price and populate item lines
         decimal totalPrice = 0;
         foreach (var item in command.Request.Items)
         {
@@ -67,7 +69,8 @@ public class ProcessPurchaseOrderCommandHandler(
         try
         {
             // Save purchase order
-            var savedOrder = await purchaseOrderRepository.AddAsync(purchaseOrder, cancellationToken);
+            var savedOrder = purchaseOrderRepository.Add(purchaseOrder);
+            await unitOfWork.SaveChangesAsync(cancellationToken);
 
             // Create processing context
             var context = new OrderProcessingContext
@@ -79,6 +82,7 @@ public class ProcessPurchaseOrderCommandHandler(
             // Execute all business rules via the processor
             await purchaseOrderProcessor.ProcessAsync(context, cancellationToken);
 
+            // Save changes and commit transaction
             await unitOfWork.SaveChangesAsync(cancellationToken);
             await unitOfWork.CommitTransactionAsync(cancellationToken);
 
@@ -90,16 +94,18 @@ public class ProcessPurchaseOrderCommandHandler(
                 TotalPrice = savedOrder.TotalPrice,
                 OrderedOn = savedOrder.OrderedOn,
                 Status = savedOrder.Status,
-                ActivatedMembershipIds = context.ActivatedMembershipIds,
-                GeneratedShippingSlipIds = context.GeneratedShippingSlipIds,
-                Items = savedOrder.ItemLines.Select(il => new OrderItemLineDto
-                {
-                    OrderItemLineId = il.OrderItemLineId,
-                    ProductId = il.ProductId,
-                    ProductName = il.ProductName,
-                    Price = il.Price,
-                    Quantity = il.Quantity
-                }).ToList()
+                ActivatedMembershipsCount = context.ActivatedMembershipsCount,
+                GeneratedShippingSlipsCount = context.GeneratedShippingSlipsCount,
+                Items = [.. savedOrder
+                    .ItemLines
+                    .Select(il => new OrderItemLineDto
+                    {
+                        OrderItemLineId = il.OrderItemLineId,
+                        ProductId = il.ProductId,
+                        ProductName = il.ProductName,
+                        Price = il.Price,
+                        Quantity = il.Quantity
+                    })]
             };
         }
         catch

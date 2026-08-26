@@ -8,5 +8,5 @@ public interface IShippingSlipRepository
 
     Task<IEnumerable<ShippingSlip>> GetByOrderIdAsync(int purchaseOrderId, CancellationToken cancellationToken);
 
-    Task<ShippingSlip> AddAsync(ShippingSlip shippingSlip, CancellationToken cancellationToken);
+    ShippingSlip Add(ShippingSlip shippingSlip);
 }

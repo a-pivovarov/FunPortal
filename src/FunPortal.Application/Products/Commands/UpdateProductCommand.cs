@@ -1,6 +1,7 @@
 ﻿using FunPortal.Application.DTOs.Products;
 using FunPortal.Application.Interfaces.Persistence;
 using FunPortal.Application.Interfaces.Repositories;
+using FunPortal.Application.Mappers;
 using FunPortal.Domain.Entities.Products;
 using MediatR;
 
@@ -39,40 +40,9 @@ public class UpdateProductCommandHandler(
                 break;
         }
 
-        await productRepository.UpdateAsync(product, cancellationToken);
+        productRepository.Update(product);
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return MapToDto(product);
-    }
-
-    private static ProductDto MapToDto(Product product)
-    {
-        var dto = new ProductDto
-        {
-            ProductId = product.ProductId,
-            Name = product.Name,
-            Price = product.Price,
-            ProductType = product.ProductType,
-            CreatedOn = product.CreatedOn,
-            UpdatedOn = product.UpdatedOn
-        };
-
-        switch (product)
-        {
-            case Book book:
-                dto.Author = book.Author;
-                dto.ISBN = book.ISBN;
-                break;
-            case Video video:
-                dto.Director = video.Director;
-                dto.DurationMinutes = video.DurationMinutes;
-                break;
-            case MembershipProduct membership:
-                dto.MembershipType = membership.MembershipType;
-                dto.DurationMonths = membership.DurationMonths;
-                break;
-        }
-
-        return dto;
+        return product.MapToDto();
     }
 }

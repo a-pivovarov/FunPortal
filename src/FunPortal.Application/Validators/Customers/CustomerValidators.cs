@@ -1,4 +1,5 @@
 using FluentValidation;
+using FunPortal.Application.Customers.Commands;
 using FunPortal.Application.DTOs.Customers;
 
 namespace FunPortal.Application.Validators.Customers;
@@ -46,5 +47,25 @@ public class UpdateCustomerRequestValidator : AbstractValidator<UpdateCustomerRe
         RuleFor(x => x.Address)
             .MaximumLength(500).WithMessage("Address must not exceed 500 characters")
             .When(x => !string.IsNullOrEmpty(x.Address));
+    }
+}
+
+public class CreateCustomerCommandValidator : AbstractValidator<CreateCustomerCommand>
+{
+    public CreateCustomerCommandValidator()
+    {
+        RuleFor(x => x.Request)
+            .NotNull()
+            .SetValidator(new CreateCustomerRequestValidator());
+    }
+}
+
+public class UpdateCustomerCommandValidator : AbstractValidator<UpdateCustomerCommand>
+{
+    public UpdateCustomerCommandValidator()
+    {
+        RuleFor(x => x.Request)
+            .NotNull()
+            .SetValidator(new UpdateCustomerRequestValidator());
     }
 }

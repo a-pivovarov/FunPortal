@@ -14,9 +14,9 @@ public class PurchaseOrderResponse
 
     public OrderStatus Status { get; set; }
 
-    public List<int> ActivatedMembershipIds { get; set; } = [];
+    public int ActivatedMembershipsCount { get; set; }
 
-    public List<int> GeneratedShippingSlipIds { get; set; } = [];
+    public int GeneratedShippingSlipsCount { get; set; }
 
-    public List<OrderItemLineDto> Items { get; set; } = [];
+    public IReadOnlyCollection<OrderItemLineDto> Items { get; set; } = [];
 }
