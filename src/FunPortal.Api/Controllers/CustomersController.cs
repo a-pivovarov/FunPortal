@@ -51,7 +51,7 @@ public class CustomersController(IMediator mediator) : ControllerBase
         CancellationToken cancellationToken)
     {
         var result = await mediator.Send(new CreateCustomerCommand(request), cancellationToken);
-        return CreatedAtAction(nameof(GetByIdAsync), new { id = result.CustomerId }, result);
+        return Ok(result);
     }
 
     /// <summary>
