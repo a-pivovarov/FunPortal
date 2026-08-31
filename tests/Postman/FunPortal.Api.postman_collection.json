@@ -8,599 +8,594 @@
   },
   "item": [
     {
-      "name": "Customers",
+      "name": "v1",
       "item": [
         {
-          "name": "Customers - GetAll",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "https://localhost:7096/api/customers",
-              "protocol": "https",
-              "host": [
-                "localhost"
-              ],
-              "port": "7096",
-              "path": [
-                "api",
-                "customers"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Costomers - GetById",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
-          "request": {
-            "method": "GET",
-            "header": [],
-            "body": {
-              "mode": "urlencoded",
-              "urlencoded": []
-            },
-            "url": {
-              "raw": "https://localhost:7096/api/customers/2",
-              "protocol": "https",
-              "host": [
-                "localhost"
-              ],
-              "port": "7096",
-              "path": [
-                "api",
-                "customers",
-                "2"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Customers - Create",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n  \"name\": \"John Smith\",\r\n  \"email\": \"john.smith@example.com\",\r\n  \"phone\": \"123-4567\",\r\n  \"address\": \"445 Main St, Marshfield\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "https://localhost:7096/api/customers",
-              "protocol": "https",
-              "host": [
-                "localhost"
-              ],
-              "port": "7096",
-              "path": [
-                "api",
-                "customers"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Customers - Create - Validation Error",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n  \"name\": \"\",\r\n  \"email\": \"john.smith\",\r\n  \"phone\": \"123-4567\",\r\n  \"address\": \"445 Main St, Marshfield\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "https://localhost:7096/api/customers",
-              "protocol": "https",
-              "host": [
-                "localhost"
-              ],
-              "port": "7096",
-              "path": [
-                "api",
-                "customers"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Customers - Update",
-          "request": {
-            "method": "PUT",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n  \"name\": \"John Smith Updated\",\r\n  \"email\": \"john.smith@example.com\",\r\n  \"phone\": \"123-4568\",\r\n  \"address\": \"445 Main St, Marshfield Updated\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "https://localhost:7096/api/customers/12",
-              "protocol": "https",
-              "host": [
-                "localhost"
-              ],
-              "port": "7096",
-              "path": [
-                "api",
-                "customers",
-                "12"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Customers - Update - Validation Error",
-          "request": {
-            "method": "PUT",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n  \"name\": \"\",\r\n  \"email\": \"john\",\r\n  \"phone\": \"123-4568123-4568123-4568123-4568\",\r\n  \"address\": \"445 Main St, Marshfield Updated\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "https://localhost:7096/api/customers/11",
-              "protocol": "https",
-              "host": [
-                "localhost"
-              ],
-              "port": "7096",
-              "path": [
-                "api",
-                "customers",
-                "11"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Customers - Delete",
-          "request": {
-            "method": "DELETE",
-            "header": [],
-            "url": {
-              "raw": "https://localhost:7096/api/customers/12",
-              "protocol": "https",
-              "host": [
-                "localhost"
-              ],
-              "port": "7096",
-              "path": [
-                "api",
-                "customers",
-                "12"
-              ]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "Memberships",
-      "item": [
-        {
-          "name": "Memberships - Get customer's memberships",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "https://localhost:7096/api/memberships/customer/1",
-              "protocol": "https",
-              "host": [
-                "localhost"
-              ],
-              "port": "7096",
-              "path": [
-                "api",
-                "memberships",
-                "customer",
-                "1"
-              ]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "Products",
-      "item": [
-        {
-          "name": "Products - GetAll",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
-          "request": {
-            "method": "GET",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n  \"name\": \"\",\r\n  \"email\": \"john.smith\",\r\n  \"phone\": \"123-4567\",\r\n  \"address\": \"445 Main St, Marshfield\"\r\n}"
-            },
-            "url": {
-              "raw": "https://localhost:7096/api/products",
-              "protocol": "https",
-              "host": [
-                "localhost"
-              ],
-              "port": "7096",
-              "path": [
-                "api",
-                "products"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Products - GetAll by productType",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "https://localhost:7096/api/products?type=1",
-              "protocol": "https",
-              "host": [
-                "localhost"
-              ],
-              "port": "7096",
-              "path": [
-                "api",
-                "products"
-              ],
-              "query": [
+          "name": "Customers",
+          "item": [
+            {
+              "name": "Customers - GetAll",
+              "event": [
                 {
-                  "key": "type",
-                  "value": "1",
-                  "type": "text"
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function() {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Response has customers collection\", function () {\r",
+                      "  const json = pm.response.json();\r",
+                      "  pm.expect(json).to.have.length.above(2);\r",
+                      "\r",
+                      "  var customer = json[0];\r",
+                      "  pm.expect(customer).to.have.property(\"name\", \"John Doe\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
                 }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Products - Create Book",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n  \"name\": \"Book Lovers\",\r\n  \"price\": 17.88,\r\n  \"productType\": 1,\r\n  \"author\": \"Emily Henry\",\r\n  \"isbn\": \"978-0132350999\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{api_v1_url}}/customers",
+                  "host": [
+                    "{{api_v1_url}}"
+                  ],
+                  "path": [
+                    "customers"
+                  ]
                 }
-              }
+              },
+              "response": []
             },
-            "url": {
-              "raw": "https://localhost:7096/api/products",
-              "protocol": "https",
-              "host": [
-                "localhost"
-              ],
-              "port": "7096",
-              "path": [
-                "api",
-                "products"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Products - Create Video",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n  \"name\": \"The Transporter\",\r\n  \"price\": 40.99,\r\n  \"productType\": 2,\r\n  \"director\": \"Louis Leterrier\",\r\n  \"durationMinutes\": 86\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
+            {
+              "name": "Costomers - GetById",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": []
+                },
+                "url": {
+                  "raw": "{{api_v1_url}}/customers/2",
+                  "host": [
+                    "{{api_v1_url}}"
+                  ],
+                  "path": [
+                    "customers",
+                    "2"
+                  ]
                 }
-              }
+              },
+              "response": []
             },
-            "url": {
-              "raw": "https://localhost:7096/api/products",
-              "protocol": "https",
-              "host": [
-                "localhost"
-              ],
-              "port": "7096",
-              "path": [
-                "api",
-                "products"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Products - Create Membership",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n  \"name\": \"Book Club Membership\",\r\n  \"price\": 49.99,\r\n  \"productType\": 3,\r\n  \"membershipType\": 1,\r\n  \"durationMonths\": 24\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
+            {
+              "name": "Customers - Create",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"name\": \"John Smith\",\r\n  \"email\": \"john.smith@example.com\",\r\n  \"phone\": \"123-4567\",\r\n  \"address\": \"445 Main St, Marshfield\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{api_v1_url}}/customers",
+                  "host": [
+                    "{{api_v1_url}}"
+                  ],
+                  "path": [
+                    "customers"
+                  ]
                 }
-              }
+              },
+              "response": []
             },
-            "url": {
-              "raw": "https://localhost:7096/api/products",
-              "protocol": "https",
-              "host": [
-                "localhost"
-              ],
-              "port": "7096",
-              "path": [
-                "api",
-                "products"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Products - Get by id",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "https://localhost:7096/api/products/2",
-              "protocol": "https",
-              "host": [
-                "localhost"
-              ],
-              "port": "7096",
-              "path": [
-                "api",
-                "products",
-                "2"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Products - Update",
-          "request": {
-            "method": "PUT",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n  \"name\": \"Book Lovers Updated\",\r\n  \"price\": 18.88,\r\n  \"productType\": 1,\r\n  \"author\": \"Emily Henry Updated\",\r\n  \"isbn\": \"978-0132350999\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
+            {
+              "name": "Customers - Create - Validation Error",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"name\": \"\",\r\n  \"email\": \"john.smith\",\r\n  \"phone\": \"123-4567\",\r\n  \"address\": \"445 Main St, Marshfield\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{api_v1_url}}/customers",
+                  "host": [
+                    "{{api_v1_url}}"
+                  ],
+                  "path": [
+                    "customers"
+                  ]
                 }
-              }
+              },
+              "response": []
             },
-            "url": {
-              "raw": "https://localhost:7096/api/products/8",
-              "protocol": "https",
-              "host": [
-                "localhost"
-              ],
-              "port": "7096",
-              "path": [
-                "api",
-                "products",
-                "8"
-              ]
+            {
+              "name": "Customers - Update",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"name\": \"John Smith Updated\",\r\n  \"email\": \"john.smith@example.com\",\r\n  \"phone\": \"123-4568\",\r\n  \"address\": \"445 Main St, Marshfield Updated\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{api_v1_url}}/customers/12",
+                  "host": [
+                    "{{api_v1_url}}"
+                  ],
+                  "path": [
+                    "customers",
+                    "12"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Customers - Update - Validation Error",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"name\": \"\",\r\n  \"email\": \"john\",\r\n  \"phone\": \"123-4568123-4568123-4568123-4568\",\r\n  \"address\": \"445 Main St, Marshfield Updated\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{api_v1_url}}/customers/11",
+                  "host": [
+                    "{{api_v1_url}}"
+                  ],
+                  "path": [
+                    "customers",
+                    "11"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Customers - Delete",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{api_v1_url}}/customers/16",
+                  "host": [
+                    "{{api_v1_url}}"
+                  ],
+                  "path": [
+                    "customers",
+                    "16"
+                  ]
+                }
+              },
+              "response": []
             }
-          },
-          "response": []
+          ]
         },
         {
-          "name": "Products - Delete",
-          "request": {
-            "method": "DELETE",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n  \"name\": \"Book Lovers Updated\",\r\n  \"price\": 18.88,\r\n  \"productType\": 1,\r\n  \"author\": \"Emily Henry Updated\",\r\n  \"isbn\": \"978-0132350999\"\r\n}"
-            },
-            "url": {
-              "raw": "https://localhost:7096/api/products/10",
-              "protocol": "https",
-              "host": [
-                "localhost"
-              ],
-              "port": "7096",
-              "path": [
-                "api",
-                "products",
-                "10"
-              ]
+          "name": "Memberships",
+          "item": [
+            {
+              "name": "Memberships - Get customer's memberships",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{api_v1_url}}/memberships/customer/1",
+                  "host": [
+                    "{{api_v1_url}}"
+                  ],
+                  "path": [
+                    "memberships",
+                    "customer",
+                    "1"
+                  ]
+                }
+              },
+              "response": []
             }
-          },
-          "response": []
+          ]
+        },
+        {
+          "name": "Products",
+          "item": [
+            {
+              "name": "Products - GetAll",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"name\": \"\",\r\n  \"email\": \"john.smith\",\r\n  \"phone\": \"123-4567\",\r\n  \"address\": \"445 Main St, Marshfield\"\r\n}"
+                },
+                "url": {
+                  "raw": "{{api_v1_url}}/products",
+                  "host": [
+                    "{{api_v1_url}}"
+                  ],
+                  "path": [
+                    "products"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Products - GetAll by productType",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{api_v1_url}}/products?type=1",
+                  "host": [
+                    "{{api_v1_url}}"
+                  ],
+                  "path": [
+                    "products"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "1"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Products - Create Book",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"name\": \"Book Lovers\",\r\n  \"price\": 17.88,\r\n  \"productType\": 1,\r\n  \"author\": \"Emily Henry\",\r\n  \"isbn\": \"978-0132350999\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{api_v1_url}}/products",
+                  "host": [
+                    "{{api_v1_url}}"
+                  ],
+                  "path": [
+                    "products"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Products - Create Video",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"name\": \"The Transporter\",\r\n  \"price\": 40.99,\r\n  \"productType\": 2,\r\n  \"director\": \"Louis Leterrier\",\r\n  \"durationMinutes\": 86\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{api_v1_url}}/products",
+                  "host": [
+                    "{{api_v1_url}}"
+                  ],
+                  "path": [
+                    "products"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Products - Create Membership",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"name\": \"Book Club Membership\",\r\n  \"price\": 49.99,\r\n  \"productType\": 3,\r\n  \"membershipType\": 1,\r\n  \"durationMonths\": 24\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{api_v1_url}}/products",
+                  "host": [
+                    "{{api_v1_url}}"
+                  ],
+                  "path": [
+                    "products"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Products - Get by id",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{api_v1_url}}/products/2",
+                  "host": [
+                    "{{api_v1_url}}"
+                  ],
+                  "path": [
+                    "products",
+                    "2"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Products - Update",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"name\": \"Book Lovers Updated\",\r\n  \"price\": 18.88,\r\n  \"productType\": 1,\r\n  \"author\": \"Emily Henry Updated\",\r\n  \"isbn\": \"978-0132350999\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{api_v1_url}}/products/8",
+                  "host": [
+                    "{{api_v1_url}}"
+                  ],
+                  "path": [
+                    "products",
+                    "8"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Products - Delete",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"name\": \"Book Lovers Updated\",\r\n  \"price\": 18.88,\r\n  \"productType\": 1,\r\n  \"author\": \"Emily Henry Updated\",\r\n  \"isbn\": \"978-0132350999\"\r\n}"
+                },
+                "url": {
+                  "raw": "{{api_v1_url}}/products/10",
+                  "host": [
+                    "{{api_v1_url}}"
+                  ],
+                  "path": [
+                    "products",
+                    "10"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "PurchaseOrders",
+          "item": [
+            {
+              "name": "PurchaseOrders - Create Book & Video",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"customerId\": 2,\r\n  \"items\": [\r\n    {\r\n      \"productId\": 1,\r\n      \"quantity\": 2\r\n    },\r\n    {\r\n      \"productId\": 3,\r\n      \"quantity\": 1\r\n    }\r\n  ]\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{api_v1_url}}/PurchaseOrders",
+                  "host": [
+                    "{{api_v1_url}}"
+                  ],
+                  "path": [
+                    "PurchaseOrders"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "PurchaseOrders - Create Video & Premium Membership",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"customerId\": 2,\r\n  \"items\": [\r\n    {\r\n      \"productId\": 3,\r\n      \"quantity\": 2\r\n    },\r\n    {\r\n      \"productId\": 6,\r\n      \"quantity\": 1\r\n    }\r\n  ]\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{api_v1_url}}/PurchaseOrders",
+                  "host": [
+                    "{{api_v1_url}}"
+                  ],
+                  "path": [
+                    "PurchaseOrders"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "PurchaseOrders - Get by Order Id",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{api_v1_url}}/PurchaseOrders/2",
+                  "host": [
+                    "{{api_v1_url}}"
+                  ],
+                  "path": [
+                    "PurchaseOrders",
+                    "2"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "PurchaseOrders - Get by Customer Id",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{api_v1_url}}/PurchaseOrders/customer/2",
+                  "host": [
+                    "{{api_v1_url}}"
+                  ],
+                  "path": [
+                    "PurchaseOrders",
+                    "customer",
+                    "2"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "ShippingSlips",
+          "item": [
+            {
+              "name": "ShippingSlips - Get by Id",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{api_v1_url}}/ShippingSlips/2",
+                  "host": [
+                    "{{api_v1_url}}"
+                  ],
+                  "path": [
+                    "ShippingSlips",
+                    "2"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "ShippingSlips - Get by PurchaseOrder Id",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{api_v1_url}}/ShippingSlips/order/5",
+                  "host": [
+                    "{{api_v1_url}}"
+                  ],
+                  "path": [
+                    "ShippingSlips",
+                    "order",
+                    "5"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
         }
       ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
     },
     {
-      "name": "PurchaseOrders",
-      "item": [
-        {
-          "name": "PurchaseOrders - Create Book & Video",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n  \"customerId\": 2,\r\n  \"items\": [\r\n    {\r\n      \"productId\": 1,\r\n      \"quantity\": 2\r\n    },\r\n    {\r\n      \"productId\": 3,\r\n      \"quantity\": 1\r\n    }\r\n  ]\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "https://localhost:7096/api/PurchaseOrders",
-              "protocol": "https",
-              "host": [
-                "localhost"
-              ],
-              "port": "7096",
-              "path": [
-                "api",
-                "PurchaseOrders"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "PurchaseOrders - Create Video & Premium Membership",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n  \"customerId\": 2,\r\n  \"items\": [\r\n    {\r\n      \"productId\": 3,\r\n      \"quantity\": 2\r\n    },\r\n    {\r\n      \"productId\": 6,\r\n      \"quantity\": 1\r\n    }\r\n  ]\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "https://localhost:7096/api/PurchaseOrders",
-              "protocol": "https",
-              "host": [
-                "localhost"
-              ],
-              "port": "7096",
-              "path": [
-                "api",
-                "PurchaseOrders"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "PurchaseOrders - Get by Order Id",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "https://localhost:7096/api/PurchaseOrders/2",
-              "protocol": "https",
-              "host": [
-                "localhost"
-              ],
-              "port": "7096",
-              "path": [
-                "api",
-                "PurchaseOrders",
-                "2"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "PurchaseOrders - Get by Customer Id",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "https://localhost:7096/api/PurchaseOrders/customer/2",
-              "protocol": "https",
-              "host": [
-                "localhost"
-              ],
-              "port": "7096",
-              "path": [
-                "api",
-                "PurchaseOrders",
-                "customer",
-                "2"
-              ]
-            }
-          },
-          "response": []
-        }
-      ]
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_api_url",
+      "value": "https://localhost:7096/api"
     },
     {
-      "name": "ShippingSlips",
-      "item": [
-        {
-          "name": "ShippingSlips - Get by Id",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "https://localhost:7096/api/ShippingSlips/2",
-              "protocol": "https",
-              "host": [
-                "localhost"
-              ],
-              "port": "7096",
-              "path": [
-                "api",
-                "ShippingSlips",
-                "2"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "ShippingSlips - Get by PurchaseOrder Id",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "https://localhost:7096/api/ShippingSlips/order/5",
-              "protocol": "https",
-              "host": [
-                "localhost"
-              ],
-              "port": "7096",
-              "path": [
-                "api",
-                "ShippingSlips",
-                "order",
-                "5"
-              ]
-            }
-          },
-          "response": []
-        }
-      ]
+      "key": "api_v1_url",
+      "value": "{{base_api_url}}/v1"
     }
   ]
 }
