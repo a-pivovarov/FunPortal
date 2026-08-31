@@ -1,4 +1,6 @@
-﻿using FunPortal.Api.Extensions;
+﻿using Asp.Versioning;
+using Asp.Versioning.ApiExplorer;
+using FunPortal.Api.Extensions;
 using FunPortal.Api.Middleware;
 using FunPortal.Application.Interfaces.Persistence;
 using FunPortal.Infrastructure.Persistence;
@@ -8,6 +10,24 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container
 builder.Services.AddControllers();
+
+// API Versioning
+builder.Services
+    .AddApiVersioning(options =>
+    {
+        options.DefaultApiVersion = new ApiVersion(1, 0);
+        options.AssumeDefaultVersionWhenUnspecified = true;
+        options.ReportApiVersions = true;
+        options.ApiVersionReader = ApiVersionReader.Combine(
+            new UrlSegmentApiVersionReader(),
+            new HeaderApiVersionReader("x-api-version"),
+            new QueryStringApiVersionReader("api-version"));
+    })
+    .AddApiExplorer(options =>
+    {
+        options.GroupNameFormat = "'v'VVV";
+        options.SubstituteApiVersionInUrl = true;
+    });
 
 // Add OpenAPI/Swagger
 builder.Services.AddEndpointsApiExplorer();
@@ -37,10 +57,18 @@ var app = builder.Build();
 // Configure the HTTP request pipeline
 if (app.Environment.IsDevelopment())
 {
+    var apiVersionDescriptionProvider = app.Services
+        .GetRequiredService<IApiVersionDescriptionProvider>();
+
     app.UseSwagger();
-    app.UseSwaggerUI(c =>
+    app.UseSwaggerUI(options =>
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "FunBooksAndVideos API v1");
+        foreach (var description in apiVersionDescriptionProvider.ApiVersionDescriptions)
+        {
+            options.SwaggerEndpoint(
+                $"/swagger/{description.GroupName}/swagger.json",
+                $"FunBooksAndVideos API {description.GroupName.ToUpperInvariant()}");
+        }
     });
 }
 

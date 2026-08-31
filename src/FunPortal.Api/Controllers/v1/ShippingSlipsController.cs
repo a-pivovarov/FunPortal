@@ -1,12 +1,14 @@
-﻿using FunPortal.Application.DTOs.ShippingSlips;
+﻿using Asp.Versioning;
+using FunPortal.Application.DTOs.ShippingSlips;
 using FunPortal.Application.ShippingSlips.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FunPortal.Api.Controllers;
+namespace FunPortal.Api.Controllers.v1;
 
 [ApiController]
-[Route("api/[controller]")]
+[ApiVersion("1.0")]
+[Route("api/v{version:apiVersion}/[controller]")]
 public class ShippingSlipsController(IMediator mediator) : ControllerBase
 {
     /// <summary>

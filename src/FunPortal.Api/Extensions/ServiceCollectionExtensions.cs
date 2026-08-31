@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using Asp.Versioning.ApiExplorer;
+using FluentValidation;
 using FunPortal.Application.Behaviors;
 using FunPortal.Application.Interfaces.Repositories;
 using FunPortal.Application.Interfaces.Services;
@@ -7,6 +8,9 @@ using FunPortal.Application.PurchaseOrders.Commands.Processing.Rules;
 using FunPortal.Infrastructure.Repositories;
 using FunPortal.Infrastructure.Services;
 using MediatR;
+using Microsoft.Extensions.Options;
+using Microsoft.OpenApi;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
 
 namespace FunPortal.Api.Extensions
@@ -15,21 +19,19 @@ namespace FunPortal.Api.Extensions
     {
         internal static IServiceCollection AddSwagger(this IServiceCollection services)
         {
+            services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+
             services.AddSwaggerGen(options =>
             {
-                options.SwaggerDoc("v1", new Microsoft.OpenApi.OpenApiInfo
-                {
-                    Title = "FunBooksAndVideos API",
-                    Version = "v1",
-                    Description = "E-commerce API for books, videos, and memberships with automated business rules"
-                });
-
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 if (File.Exists(xmlPath))
                 {
                     options.IncludeXmlComments(xmlPath);
                 }
+
+                // Enable annotations for Swagger
+                options.EnableAnnotations();
             });
 
             return services;
@@ -74,6 +76,24 @@ namespace FunPortal.Api.Extensions
             services.AddScoped<IPurchaseOrderRule, CompleteOrderRule>();
 
             return services;
+        }
+
+        private sealed class ConfigureSwaggerOptions(
+            IApiVersionDescriptionProvider provider)
+            : IConfigureOptions<SwaggerGenOptions>
+        {
+            public void Configure(SwaggerGenOptions options)
+            {
+                foreach (var description in provider.ApiVersionDescriptions)
+                {
+                    options.SwaggerDoc(description.GroupName, new OpenApiInfo
+                    {
+                        Title = "FunBooksAndVideos API",
+                        Version = description.ApiVersion.ToString(),
+                        Description = "E-commerce API for books, videos, and memberships with automated business rules"
+                    });
+                }
+            }
         }
     }
 }
