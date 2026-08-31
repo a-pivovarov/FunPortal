@@ -1,7 +1,7 @@
 ﻿using Asp.Versioning;
 using FunPortal.Application.DTOs.Products;
-using FunPortal.Application.Products.Commands;
-using FunPortal.Application.Products.Queries;
+using FunPortal.Application.Features.Products.Commands;
+using FunPortal.Application.Features.Products.Queries;
 using FunPortal.Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

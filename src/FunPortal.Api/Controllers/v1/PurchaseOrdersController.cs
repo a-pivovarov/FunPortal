@@ -1,7 +1,7 @@
 ﻿using Asp.Versioning;
 using FunPortal.Application.DTOs.PurchaseOrders;
-using FunPortal.Application.PurchaseOrders.Commands;
-using FunPortal.Application.PurchaseOrders.Queries;
+using FunPortal.Application.Features.PurchaseOrders.Commands;
+using FunPortal.Application.Features.PurchaseOrders.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

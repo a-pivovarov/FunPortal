@@ -1,6 +1,6 @@
 ﻿using Asp.Versioning;
 using FunPortal.Application.DTOs.ShippingSlips;
-using FunPortal.Application.ShippingSlips.Queries;
+using FunPortal.Application.Features.ShippingSlips.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

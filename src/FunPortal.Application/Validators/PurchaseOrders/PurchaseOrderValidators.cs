@@ -1,6 +1,6 @@
 using FluentValidation;
 using FunPortal.Application.DTOs.PurchaseOrders;
-using FunPortal.Application.PurchaseOrders.Commands;
+using FunPortal.Application.Features.PurchaseOrders.Commands;
 
 namespace FunPortal.Application.Validators.PurchaseOrders;
 

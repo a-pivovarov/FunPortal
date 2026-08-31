@@ -1,6 +1,6 @@
 ﻿using Asp.Versioning;
-using FunPortal.Application.Customers.Queries;
 using FunPortal.Application.DTOs.Customers;
+using FunPortal.Application.Features.Customers.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

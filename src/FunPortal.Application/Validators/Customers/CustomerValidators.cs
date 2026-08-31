@@ -1,6 +1,6 @@
 using FluentValidation;
-using FunPortal.Application.Customers.Commands;
 using FunPortal.Application.DTOs.Customers;
+using FunPortal.Application.Features.Customers.Commands;
 
 namespace FunPortal.Application.Validators.Customers;
 

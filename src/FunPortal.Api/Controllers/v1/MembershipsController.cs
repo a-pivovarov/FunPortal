@@ -1,6 +1,6 @@
 ﻿using Asp.Versioning;
 using FunPortal.Application.DTOs.Memberships;
-using FunPortal.Application.Memberships.Queries;
+using FunPortal.Application.Features.Memberships.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

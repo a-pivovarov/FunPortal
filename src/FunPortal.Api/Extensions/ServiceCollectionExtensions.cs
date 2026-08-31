@@ -1,10 +1,11 @@
 ﻿using Asp.Versioning.ApiExplorer;
 using FluentValidation;
 using FunPortal.Application.Behaviors;
+using FunPortal.Application.Features.Customers.Commands;
+using FunPortal.Application.Features.PurchaseOrders.Commands.Processing;
+using FunPortal.Application.Features.PurchaseOrders.Commands.Processing.Rules;
 using FunPortal.Application.Interfaces.Repositories;
 using FunPortal.Application.Interfaces.Services;
-using FunPortal.Application.PurchaseOrders.Commands.Processing;
-using FunPortal.Application.PurchaseOrders.Commands.Processing.Rules;
 using FunPortal.Infrastructure.Repositories;
 using FunPortal.Infrastructure.Services;
 using MediatR;
@@ -41,7 +42,7 @@ namespace FunPortal.Api.Extensions
         {
             // Add MediatR
             services.AddMediatR(cfg =>
-                cfg.RegisterServicesFromAssembly(typeof(Application.Customers.Commands.CreateCustomerCommand).Assembly));
+                cfg.RegisterServicesFromAssembly(typeof(CreateCustomerCommand).Assembly));
 
             // Add FluentValidation
             services.AddValidatorsFromAssembly(
