@@ -96,6 +96,9 @@ namespace FunPortal.Api.Extensions
             services.AddScoped<IPurchaseOrderRule, GenerateShippingSlipRule>();
             services.AddScoped<IPurchaseOrderRule, CompleteOrderRule>();
 
+            // Add the hosted service for database cleanup
+            services.AddHostedService<DatabaseCleanupService>();
+
             return services;
         }
 
