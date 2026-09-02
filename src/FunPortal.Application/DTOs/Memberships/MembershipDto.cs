@@ -6,7 +6,7 @@ public class MembershipDto
 {
     public int MembershipId { get; set; }
 
-    public int CustomerId { get; set; }
+    public int UserId { get; set; }
 
     public MembershipType MembershipType { get; set; }
 

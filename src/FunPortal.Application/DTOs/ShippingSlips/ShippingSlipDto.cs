@@ -8,7 +8,7 @@ public class ShippingSlipDto
 
     public int PurchaseOrderId { get; set; }
 
-    public int CustomerId { get; set; }
+    public int UserId { get; set; }
 
     public string Items { get; set; } = string.Empty;
 

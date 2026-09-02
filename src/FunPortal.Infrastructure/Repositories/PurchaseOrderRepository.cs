@@ -11,15 +11,15 @@ public class PurchaseOrderRepository(FunPortalDbContext context) : IPurchaseOrde
     {
         return await context.PurchaseOrders
             .Include(po => po.ItemLines)
-            .Include(po => po.Customer)
+            .Include(po => po.User)
             .FirstOrDefaultAsync(po => po.PurchaseOrderId == purchaseOrderId, cancellationToken);
     }
 
-    public async Task<IEnumerable<PurchaseOrder>> GetByCustomerIdAsync(int customerId, CancellationToken cancellationToken)
+    public async Task<IEnumerable<PurchaseOrder>> GetByUserIdAsync(int userId, CancellationToken cancellationToken)
     {
         return await context.PurchaseOrders
             .Include(po => po.ItemLines)
-            .Where(po => po.CustomerId == customerId)
+            .Where(po => po.UserId == userId)
             .ToListAsync(cancellationToken);
     }
 

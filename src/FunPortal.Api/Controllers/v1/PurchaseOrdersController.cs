@@ -3,6 +3,7 @@ using FunPortal.Application.DTOs.PurchaseOrders;
 using FunPortal.Application.Features.PurchaseOrders.Commands;
 using FunPortal.Application.Features.PurchaseOrders.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FunPortal.Api.Controllers.v1;
@@ -10,6 +11,7 @@ namespace FunPortal.Api.Controllers.v1;
 [ApiController]
 [ApiVersion("1.0")]
 [Route("api/v{version:apiVersion}/[controller]")]
+[Authorize]
 public class PurchaseOrdersController(IMediator mediator) : ControllerBase
 {
     /// <summary>
@@ -38,6 +40,7 @@ public class PurchaseOrdersController(IMediator mediator) : ControllerBase
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(PurchaseOrderResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<PurchaseOrderResponse>> GetByIdAsync(
         int id,
         CancellationToken cancellationToken)
@@ -53,13 +56,14 @@ public class PurchaseOrdersController(IMediator mediator) : ControllerBase
     /// <summary>
     /// Get all purchase orders for a customer
     /// </summary>
-    [HttpGet("customer/{customerId}")]
+    [HttpGet("user/{userId}")]
     [ProducesResponseType(typeof(IReadOnlyCollection<PurchaseOrderResponse>), StatusCodes.Status200OK)]
-    public async Task<ActionResult<IReadOnlyCollection<PurchaseOrderResponse>>> GetByCustomerAsync(
-        int customerId,
+    [Authorize(Roles = "Admin")]
+    public async Task<ActionResult<IReadOnlyCollection<PurchaseOrderResponse>>> GetByUserAsync(
+        int userId,
         CancellationToken cancellationToken)
     {
-        var result = await mediator.Send(new GetCustomerPurchaseOrdersQuery(customerId), cancellationToken);
+        var result = await mediator.Send(new GetUserPurchaseOrdersQuery(userId), cancellationToken);
         return Ok(result);
     }
 }

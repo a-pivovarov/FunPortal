@@ -4,6 +4,7 @@ using FunPortal.Application.Features.Products.Commands;
 using FunPortal.Application.Features.Products.Queries;
 using FunPortal.Domain.Enums;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FunPortal.Api.Controllers.v1;
@@ -11,6 +12,7 @@ namespace FunPortal.Api.Controllers.v1;
 [ApiController]
 [ApiVersion("1.0")]
 [Route("api/v{version:apiVersion}/[controller]")]
+[Authorize]
 public class ProductsController(IMediator mediator) : ControllerBase
 {
     /// <summary>
@@ -50,6 +52,7 @@ public class ProductsController(IMediator mediator) : ControllerBase
     [HttpPost]
     [ProducesResponseType(typeof(ProductDto), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<ProductDto>> CreateAsync(
         [FromBody] CreateProductRequest request,
         CancellationToken cancellationToken)
@@ -65,6 +68,7 @@ public class ProductsController(IMediator mediator) : ControllerBase
     [ProducesResponseType(typeof(ProductDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<ProductDto>> UpdateAsync(
         int id,
         [FromBody] UpdateProductRequest request,
@@ -80,6 +84,7 @@ public class ProductsController(IMediator mediator) : ControllerBase
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> DeleteAsync(
         int id,
         CancellationToken cancellationToken)

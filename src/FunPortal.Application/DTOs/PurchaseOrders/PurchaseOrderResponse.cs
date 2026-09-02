@@ -6,7 +6,7 @@ public class PurchaseOrderResponse
 {
     public int PurchaseOrderId { get; set; }
 
-    public int CustomerId { get; set; }
+    public int UserId { get; set; }
 
     public decimal TotalPrice { get; set; }
 

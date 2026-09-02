@@ -2,6 +2,7 @@
 using FunPortal.Application.DTOs.ShippingSlips;
 using FunPortal.Application.Features.ShippingSlips.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FunPortal.Api.Controllers.v1;
@@ -9,6 +10,7 @@ namespace FunPortal.Api.Controllers.v1;
 [ApiController]
 [ApiVersion("1.0")]
 [Route("api/v{version:apiVersion}/[controller]")]
+[Authorize(Roles = "Admin")]
 public class ShippingSlipsController(IMediator mediator) : ControllerBase
 {
     /// <summary>

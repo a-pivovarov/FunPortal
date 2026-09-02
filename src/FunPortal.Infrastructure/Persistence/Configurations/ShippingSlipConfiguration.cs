@@ -24,9 +24,9 @@ public class ShippingSlipConfiguration : IEntityTypeConfiguration<ShippingSlip>
             .HasForeignKey(e => e.PurchaseOrderId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne(e => e.Customer)
+        builder.HasOne(e => e.User)
             .WithMany()
-            .HasForeignKey(e => e.CustomerId)
+            .HasForeignKey(e => e.UserId)
             .OnDelete(DeleteBehavior.Restrict);
     }
 }

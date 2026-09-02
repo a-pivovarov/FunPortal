@@ -6,7 +6,7 @@ namespace FunPortal.Application.Interfaces.Services;
 public interface IMembershipActivationService
 {
     Task<Membership> ActivateMembershipAsync(
-        int customerId, 
+        int userId, 
         MembershipType membershipType, 
         int durationMonths,
         CancellationToken cancellationToken = default);

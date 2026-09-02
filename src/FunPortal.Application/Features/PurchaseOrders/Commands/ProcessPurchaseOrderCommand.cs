@@ -14,7 +14,7 @@ public record ProcessPurchaseOrderCommand(CreatePurchaseOrderRequest Request)
 
 public class ProcessPurchaseOrderCommandHandler(
     IPurchaseOrderRepository purchaseOrderRepository,
-    ICustomerRepository customerRepository,
+    IUserRepository userRepository,
     IProductRepository productRepository,
     IPurchaseOrderProcessor purchaseOrderProcessor,
     IUnitOfWork unitOfWork)
@@ -22,10 +22,10 @@ public class ProcessPurchaseOrderCommandHandler(
 {
     public async Task<PurchaseOrderResponse> Handle(ProcessPurchaseOrderCommand command, CancellationToken cancellationToken)
     {
-        // Validate customer exists
-        var customerExists = await customerRepository.ExistsAsync(command.Request.CustomerId, cancellationToken);
-        if (!customerExists)
-            throw new KeyNotFoundException($"Customer with ID {command.Request.CustomerId} not found");
+        // Validate user exists
+        var userExists = await userRepository.ExistsAsync(command.Request.UserId, cancellationToken);
+        if (!userExists)
+            throw new KeyNotFoundException($"User with ID {command.Request.UserId} not found");
 
         // Validate all products exist and retrieve them
         var productDict = new Dictionary<int, Product>();
@@ -54,7 +54,7 @@ public class ProcessPurchaseOrderCommandHandler(
         // Create purchase order
         var purchaseOrder = new PurchaseOrder
         {
-            CustomerId = request.CustomerId,
+            UserId = request.UserId,
             OrderedOn = DateTime.UtcNow,
             Status = OrderStatus.Processing,
             ItemLines = []
@@ -112,7 +112,7 @@ public class ProcessPurchaseOrderCommandHandler(
             return new PurchaseOrderResponse
             {
                 PurchaseOrderId = savedOrder.PurchaseOrderId,
-                CustomerId = savedOrder.CustomerId,
+                UserId = savedOrder.UserId,
                 TotalPrice = savedOrder.TotalPrice,
                 OrderedOn = savedOrder.OrderedOn,
                 Status = savedOrder.Status,

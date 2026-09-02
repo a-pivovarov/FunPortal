@@ -10,7 +10,9 @@ public class FunPortalDbContext(
     DbContextOptions<FunPortalDbContext> options)
     : DbContext(options)
 {
-    public DbSet<Customer> Customers => Set<Customer>();
+    public DbSet<User> Users => Set<User>();
+
+    public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
 
     public DbSet<Product> Products => Set<Product>();
 
@@ -33,7 +35,8 @@ public class FunPortalDbContext(
         base.OnModelCreating(modelBuilder);
 
         // Apply configurations
-        modelBuilder.ApplyConfiguration(new CustomerConfiguration());
+        modelBuilder.ApplyConfiguration(new UserConfiguration());
+        modelBuilder.ApplyConfiguration(new RefreshTokenConfiguration());
         modelBuilder.ApplyConfiguration(new ProductConfiguration());
         modelBuilder.ApplyConfiguration(new BookConfiguration());
         modelBuilder.ApplyConfiguration(new VideoConfiguration());

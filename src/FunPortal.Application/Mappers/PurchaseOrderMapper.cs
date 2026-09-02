@@ -17,7 +17,7 @@ internal static class PurchaseOrderMapper
         return new()
         {
             PurchaseOrderId = order.PurchaseOrderId,
-            CustomerId = order.CustomerId,
+            UserId = order.UserId,
             TotalPrice = order.TotalPrice,
             OrderedOn = order.OrderedOn,
             Status = order.Status,

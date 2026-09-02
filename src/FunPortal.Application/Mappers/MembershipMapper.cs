@@ -12,7 +12,7 @@ internal static class MembershipMapper
             .Select(m => new MembershipDto
             {
                 MembershipId = m.MembershipId,
-                CustomerId = m.CustomerId,
+                UserId = m.UserId,
                 MembershipType = m.MembershipType,
                 ActivatedOn = m.ActivatedOn,
                 ExpiresAt = m.ExpiresAt,

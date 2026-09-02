@@ -2,7 +2,7 @@
 
 public class CreatePurchaseOrderRequest
 {
-    public int CustomerId { get; set; }
+    public int UserId { get; set; }
 
     public List<OrderItemDto> Items { get; set; } = [];
 }

@@ -26,18 +26,18 @@ namespace FunPortal.Application.Tests.Features.PurchaseOrders.Commands
         {
             // Arrange
             var command = _fixture.CreateCommand();
-            
-            Mock.Get(_fixture.CustomerRepository)
-                .Setup(x => x.ExistsAsync(command.Request.CustomerId, It.IsAny<CancellationToken>()))
+
+            Mock.Get(_fixture.UserRepository)
+                .Setup(x => x.ExistsAsync(command.Request.UserId, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(false);
 
             // Act
             var action = async () => await _fixture.Handler.Handle(command, CancellationToken.None);
-            
+
             // Assert
             await action.Should().ThrowAsync<KeyNotFoundException>()
-                .WithMessage($"Customer with ID {command.Request.CustomerId} not found");
-            
+                .WithMessage($"User with ID {command.Request.UserId} not found");
+
             Mock.Get(_fixture.PurchaseOrderRepository)
                 .Verify(x => x.Add(It.IsAny<PurchaseOrder>()), Times.Never);
 
@@ -54,8 +54,8 @@ namespace FunPortal.Application.Tests.Features.PurchaseOrders.Commands
             // Arrange
             var command = _fixture.CreateCommand();
 
-            Mock.Get(_fixture.CustomerRepository)
-                .Setup(x => x.ExistsAsync(command.Request.CustomerId, It.IsAny<CancellationToken>()))
+            Mock.Get(_fixture.UserRepository)
+                .Setup(x => x.ExistsAsync(command.Request.UserId, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(true);
 
             Mock.Get(_fixture.ProductRepository)
@@ -84,8 +84,8 @@ namespace FunPortal.Application.Tests.Features.PurchaseOrders.Commands
         {
             // Arrange
             var command = _fixture.CreateCommand();
-            Mock.Get(_fixture.CustomerRepository)
-                .Setup(x => x.ExistsAsync(command.Request.CustomerId, It.IsAny<CancellationToken>()))
+            Mock.Get(_fixture.UserRepository)
+                .Setup(x => x.ExistsAsync(command.Request.UserId, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(true);
 
             var price = 10.0m;
@@ -111,7 +111,7 @@ namespace FunPortal.Application.Tests.Features.PurchaseOrders.Commands
             var expectedSavedOrder = new PurchaseOrder
             {
                 PurchaseOrderId = 1,
-                CustomerId = command.Request.CustomerId,
+                UserId = command.Request.UserId,
                 TotalPrice = command.Request.Items.Sum(i => price * i.Quantity),
                 ItemLines = command.Request.Items
                     .Select(i => new OrderItemLine
@@ -132,7 +132,7 @@ namespace FunPortal.Application.Tests.Features.PurchaseOrders.Commands
 
             // Assert
             result.Should().NotBeNull();
-            result.CustomerId.Should().Be(expectedSavedOrder.CustomerId);
+            result.UserId.Should().Be(expectedSavedOrder.UserId);
             result.TotalPrice.Should().Be(expectedSavedOrder.TotalPrice);
             result.OrderedOn.Should().Be(expectedSavedOrder.OrderedOn);
             result.Status.Should().Be(expectedSavedOrder.Status);
@@ -163,8 +163,8 @@ namespace FunPortal.Application.Tests.Features.PurchaseOrders.Commands
         {
             // Arrange
             var command = _fixture.CreateCommand();
-            Mock.Get(_fixture.CustomerRepository)
-                .Setup(x => x.ExistsAsync(command.Request.CustomerId, It.IsAny<CancellationToken>()))
+            Mock.Get(_fixture.UserRepository)
+                .Setup(x => x.ExistsAsync(command.Request.UserId, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(true);
 
             var price = 10.0m;
@@ -211,7 +211,7 @@ namespace FunPortal.Application.Tests.Features.PurchaseOrders.Commands
 
             public IPurchaseOrderRepository PurchaseOrderRepository { get; }
 
-            public ICustomerRepository CustomerRepository { get; }
+            public IUserRepository UserRepository { get; }
 
             public IProductRepository ProductRepository { get; }
 
@@ -225,14 +225,14 @@ namespace FunPortal.Application.Tests.Features.PurchaseOrders.Commands
             {
                 Fixture = new Fixture();
                 PurchaseOrderRepository = Mock.Of<IPurchaseOrderRepository>();
-                CustomerRepository = Mock.Of<ICustomerRepository>();
+                UserRepository = Mock.Of<IUserRepository>();
                 ProductRepository = Mock.Of<IProductRepository>();
                 PurchaseOrderProcessor = Mock.Of<IPurchaseOrderProcessor>();
                 UnitOfWork = Mock.Of<IUnitOfWork>();
 
                 Handler = new ProcessPurchaseOrderCommandHandler(
                     PurchaseOrderRepository,
-                    CustomerRepository,
+                    UserRepository,
                     ProductRepository,
                     PurchaseOrderProcessor,
                     UnitOfWork);

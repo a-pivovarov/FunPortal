@@ -21,7 +21,7 @@ public class ShippingSlipGenerationService(
         var shippingSlip = new ShippingSlip
         {
             PurchaseOrderId = purchaseOrder.PurchaseOrderId,
-            CustomerId = purchaseOrder.CustomerId,
+            UserId = purchaseOrder.UserId,
             Items = itemsDescription,
             Status = ShippingStatus.Generated,
             GeneratedOn = DateTime.UtcNow

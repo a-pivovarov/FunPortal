@@ -7,7 +7,7 @@ public class PurchaseOrder
 {
     public int PurchaseOrderId { get; set; }
 
-    public int CustomerId { get; set; }
+    public int UserId { get; set; }
 
     public decimal TotalPrice { get; set; }
 
@@ -15,7 +15,7 @@ public class PurchaseOrder
 
     public OrderStatus Status { get; set; }
 
-    public Customer? Customer { get; set; }
+    public User? User { get; set; }
 
     public ICollection<OrderItemLine> ItemLines { get; set; } = [];
 }

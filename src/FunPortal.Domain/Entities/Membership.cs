@@ -6,7 +6,7 @@ public class Membership
 {
     public int MembershipId { get; set; }
 
-    public int CustomerId { get; set; }
+    public int UserId { get; set; }
 
     public MembershipType MembershipType { get; set; }
 
@@ -16,5 +16,5 @@ public class Membership
 
     public bool IsActive => DateTime.UtcNow < ExpiresAt;
 
-    public Customer? Customer { get; set; }
+    public User? User { get; set; }
 }

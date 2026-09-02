@@ -19,9 +19,9 @@ public class MembershipConfiguration : IEntityTypeConfiguration<Membership>
         builder.Property(e => e.ExpiresAt)
             .IsRequired();
 
-        builder.HasOne(e => e.Customer)
+        builder.HasOne(e => e.User)
             .WithMany()
-            .HasForeignKey(e => e.CustomerId)
+            .HasForeignKey(e => e.UserId)
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.Ignore(e => e.IsActive);

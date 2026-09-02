@@ -10,14 +10,14 @@ public class MembershipActivationService(
     : IMembershipActivationService
 {
     public async Task<Membership> ActivateMembershipAsync(
-        int customerId, 
+        int userId, 
         MembershipType membershipType, 
         int durationMonths,
         CancellationToken cancellationToken = default)
     {
         var membership = new Membership
         {
-            CustomerId = customerId,
+            UserId = userId,
             MembershipType = membershipType,
             ActivatedOn = DateTime.UtcNow,
             ExpiresAt = DateTime.UtcNow.AddMonths(durationMonths)

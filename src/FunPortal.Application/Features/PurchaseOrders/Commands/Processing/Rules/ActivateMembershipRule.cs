@@ -40,7 +40,7 @@ public class ActivateMembershipRule(
             var membershipProduct = (MembershipProduct)context.Products[membershipItem.ProductId];
             
             await membershipActivationService.ActivateMembershipAsync(
-                context.Order.CustomerId,
+                context.Order.UserId,
                 membershipProduct.MembershipType,
                 membershipProduct.DurationMonths,
                 cancellationToken);

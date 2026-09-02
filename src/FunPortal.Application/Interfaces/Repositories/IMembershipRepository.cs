@@ -4,7 +4,7 @@ namespace FunPortal.Application.Interfaces.Repositories;
 
 public interface IMembershipRepository
 {
-    Task<IEnumerable<Membership>> GetByCustomerIdAsync(int customerId, CancellationToken cancellationToken);
+    Task<IEnumerable<Membership>> GetByUserIdAsync(int userId, CancellationToken cancellationToken);
 
     Membership Add(Membership membership);
 }

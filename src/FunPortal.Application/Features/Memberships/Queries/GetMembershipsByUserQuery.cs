@@ -5,19 +5,19 @@ using MediatR;
 
 namespace FunPortal.Application.Features.Memberships.Queries;
 
-public record GetMembershipsByCustomerQuery(int CustomerId)
+public record GetMembershipsByUserQuery(int UserId)
     : IRequest<IReadOnlyCollection<MembershipDto>>;
 
-public class GetMembershipsByCustomerQueryHandler(
+public class GetMembershipsByUserQueryHandler(
     IMembershipRepository membershipRepository)
-    : IRequestHandler<GetMembershipsByCustomerQuery, IReadOnlyCollection<MembershipDto>>
+    : IRequestHandler<GetMembershipsByUserQuery, IReadOnlyCollection<MembershipDto>>
 {
     public async Task<IReadOnlyCollection<MembershipDto>> Handle(
-        GetMembershipsByCustomerQuery request,
+        GetMembershipsByUserQuery request,
         CancellationToken cancellationToken)
     {
         var memberships = await membershipRepository
-            .GetByCustomerIdAsync(request.CustomerId, cancellationToken);
+            .GetByUserIdAsync(request.UserId, cancellationToken);
 
         return memberships.ToMembershipDtos();
     }

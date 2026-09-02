@@ -94,7 +94,7 @@ namespace FunPortal.Application.Tests.Features.PurchaseOrders.Commands.Processin
             {
                 Order = new PurchaseOrder
                 {
-                    CustomerId = 123,
+                    UserId = 123,
                     ItemLines =
                     [
                         new() { ProductId = 1 }
@@ -108,7 +108,7 @@ namespace FunPortal.Application.Tests.Features.PurchaseOrders.Commands.Processin
 
             Mock.Get(_fixture.MembershipActivationService)
                 .Setup(s => s.ActivateMembershipAsync(
-                    context.Order.CustomerId,
+                    context.Order.UserId,
                     membershipProduct.MembershipType,
                     membershipProduct.DurationMonths,
                     It.IsAny<CancellationToken>()))
@@ -121,7 +121,7 @@ namespace FunPortal.Application.Tests.Features.PurchaseOrders.Commands.Processin
             Mock.Get(_fixture.MembershipActivationService)
                 .Verify(
                     s => s.ActivateMembershipAsync(
-                            context.Order.CustomerId,
+                            context.Order.UserId,
                             membershipProduct.MembershipType,
                             membershipProduct.DurationMonths,
                         It.IsAny<CancellationToken>()),

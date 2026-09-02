@@ -5,19 +5,19 @@ using MediatR;
 
 namespace FunPortal.Application.Features.PurchaseOrders.Queries;
 
-public record GetCustomerPurchaseOrdersQuery(int CustomerId)
+public record GetUserPurchaseOrdersQuery(int UserId)
     : IRequest<IReadOnlyCollection<PurchaseOrderResponse>>;
 
-public class GetCustomerPurchaseOrdersQueryHandler(
+public class GetUserPurchaseOrdersQueryHandler(
     IPurchaseOrderRepository purchaseOrderRepository)
-    : IRequestHandler<GetCustomerPurchaseOrdersQuery, IReadOnlyCollection<PurchaseOrderResponse>>
+    : IRequestHandler<GetUserPurchaseOrdersQuery, IReadOnlyCollection<PurchaseOrderResponse>>
 {
     public async Task<IReadOnlyCollection<PurchaseOrderResponse>> Handle(
-        GetCustomerPurchaseOrdersQuery query,
+        GetUserPurchaseOrdersQuery query,
         CancellationToken cancellationToken)
     {
         var orders = await purchaseOrderRepository
-            .GetByCustomerIdAsync(query.CustomerId, cancellationToken);
+            .GetByUserIdAsync(query.UserId, cancellationToken);
 
         return orders.ToPurchaseOrderResponses();
     }

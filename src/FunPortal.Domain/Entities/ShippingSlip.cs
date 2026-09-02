@@ -8,7 +8,7 @@ public class ShippingSlip
 
     public int PurchaseOrderId { get; set; }
 
-    public int CustomerId { get; set; }
+    public int UserId { get; set; }
 
     public string Items { get; set; } = string.Empty;
 
@@ -18,5 +18,5 @@ public class ShippingSlip
 
     public PurchaseOrder? PurchaseOrder { get; set; }
 
-    public Customer? Customer { get; set; }
+    public User? User { get; set; }
 }

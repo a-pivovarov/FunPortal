@@ -20,9 +20,9 @@ public class PurchaseOrderConfiguration : IEntityTypeConfiguration<PurchaseOrder
         builder.Property(e => e.Status)
             .IsRequired();
 
-        builder.HasOne(e => e.Customer)
+        builder.HasOne(e => e.User)
             .WithMany()
-            .HasForeignKey(e => e.CustomerId)
+            .HasForeignKey(e => e.UserId)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasMany(e => e.ItemLines)

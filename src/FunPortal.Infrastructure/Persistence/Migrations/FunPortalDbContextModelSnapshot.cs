@@ -17,70 +17,6 @@ namespace FunPortal.Infrastructure.Persistence.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.11");
 
-            modelBuilder.Entity("FunPortal.Domain.Entities.Customer", b =>
-                {
-                    b.Property<int>("CustomerId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Address")
-                        .HasMaxLength(500)
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Phone")
-                        .HasMaxLength(20)
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("CustomerId");
-
-                    b.HasIndex("Email")
-                        .IsUnique();
-
-                    b.ToTable("Customers");
-
-                    b.HasData(
-                        new
-                        {
-                            CustomerId = 1,
-                            Address = "123 Main St, Springfield",
-                            CreatedOn = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Email = "john.doe@example.com",
-                            Name = "John Doe",
-                            Phone = "555-0101"
-                        },
-                        new
-                        {
-                            CustomerId = 2,
-                            Address = "456 Oak Ave, Riverside",
-                            CreatedOn = new DateTime(2024, 1, 2, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Email = "jane.smith@example.com",
-                            Name = "Jane Smith",
-                            Phone = "555-0102"
-                        },
-                        new
-                        {
-                            CustomerId = 3,
-                            Address = "789 Pine Rd, Lakeside",
-                            CreatedOn = new DateTime(2024, 1, 3, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Email = "bob.johnson@example.com",
-                            Name = "Bob Johnson",
-                            Phone = "555-0103"
-                        });
-                });
-
             modelBuilder.Entity("FunPortal.Domain.Entities.Membership", b =>
                 {
                     b.Property<int>("MembershipId")
@@ -90,18 +26,18 @@ namespace FunPortal.Infrastructure.Persistence.Migrations
                     b.Property<DateTime>("ActivatedOn")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<DateTime>("ExpiresAt")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("MembershipType")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("MembershipId");
 
-                    b.HasIndex("CustomerId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Memberships");
                 });
@@ -176,9 +112,6 @@ namespace FunPortal.Infrastructure.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<DateTime>("OrderedOn")
                         .HasColumnType("TEXT");
 
@@ -188,20 +121,52 @@ namespace FunPortal.Infrastructure.Persistence.Migrations
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("PurchaseOrderId");
 
-                    b.HasIndex("CustomerId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("PurchaseOrders");
+                });
+
+            modelBuilder.Entity("FunPortal.Domain.Entities.RefreshToken", b =>
+                {
+                    b.Property<int>("RefreshTokenId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("ExpiresOn")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("RevokedOn")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("RefreshTokenId");
+
+                    b.HasIndex("Token");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("RefreshTokens");
                 });
 
             modelBuilder.Entity("FunPortal.Domain.Entities.ShippingSlip", b =>
                 {
                     b.Property<int>("ShippingSlipId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("CustomerId")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("GeneratedOn")
@@ -217,13 +182,68 @@ namespace FunPortal.Infrastructure.Persistence.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("ShippingSlipId");
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
 
-                    b.HasIndex("CustomerId");
+                    b.HasKey("ShippingSlipId");
 
                     b.HasIndex("PurchaseOrderId");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("ShippingSlips");
+                });
+
+            modelBuilder.Entity("FunPortal.Domain.Entities.User", b =>
+                {
+                    b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Address")
+                        .HasMaxLength(500)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("LastLoginOn")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Phone")
+                        .HasMaxLength(20)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Role")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("UserId");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("Username")
+                        .IsUnique();
+
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("FunPortal.Domain.Entities.Products.Book", b =>
@@ -239,28 +259,6 @@ namespace FunPortal.Infrastructure.Persistence.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasDiscriminator().HasValue(1);
-
-                    b.HasData(
-                        new
-                        {
-                            ProductId = 1,
-                            CreatedOn = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "The Girl on the Train",
-                            Price = 14.99m,
-                            ProductType = 1,
-                            Author = "Paula Hawkins",
-                            ISBN = "978-1594633669"
-                        },
-                        new
-                        {
-                            ProductId = 2,
-                            CreatedOn = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Clean Code",
-                            Price = 42.99m,
-                            ProductType = 1,
-                            Author = "Robert C. Martin",
-                            ISBN = "978-0132350884"
-                        });
                 });
 
             modelBuilder.Entity("FunPortal.Domain.Entities.Products.MembershipProduct", b =>
@@ -274,38 +272,6 @@ namespace FunPortal.Infrastructure.Persistence.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasDiscriminator().HasValue(3);
-
-                    b.HasData(
-                        new
-                        {
-                            ProductId = 5,
-                            CreatedOn = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Book Club Membership",
-                            Price = 49.99m,
-                            ProductType = 3,
-                            DurationMonths = 12,
-                            MembershipType = 1
-                        },
-                        new
-                        {
-                            ProductId = 6,
-                            CreatedOn = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Video Club Membership",
-                            Price = 59.99m,
-                            ProductType = 3,
-                            DurationMonths = 12,
-                            MembershipType = 2
-                        },
-                        new
-                        {
-                            ProductId = 7,
-                            CreatedOn = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Premium Membership",
-                            Price = 99.99m,
-                            ProductType = 3,
-                            DurationMonths = 12,
-                            MembershipType = 3
-                        });
                 });
 
             modelBuilder.Entity("FunPortal.Domain.Entities.Products.Video", b =>
@@ -320,39 +286,17 @@ namespace FunPortal.Infrastructure.Persistence.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasDiscriminator().HasValue(2);
-
-                    b.HasData(
-                        new
-                        {
-                            ProductId = 3,
-                            CreatedOn = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Comprehensive First Aid Training",
-                            Price = 19.99m,
-                            ProductType = 2,
-                            Director = "Medical Training Corp",
-                            DurationMinutes = 120
-                        },
-                        new
-                        {
-                            ProductId = 4,
-                            CreatedOn = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Advanced Programming Techniques",
-                            Price = 29.99m,
-                            ProductType = 2,
-                            Director = "Tech Academy",
-                            DurationMinutes = 180
-                        });
                 });
 
             modelBuilder.Entity("FunPortal.Domain.Entities.Membership", b =>
                 {
-                    b.HasOne("FunPortal.Domain.Entities.Customer", "Customer")
+                    b.HasOne("FunPortal.Domain.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("CustomerId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Customer");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("FunPortal.Domain.Entities.OrderItemLine", b =>
@@ -376,32 +320,43 @@ namespace FunPortal.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("FunPortal.Domain.Entities.PurchaseOrder", b =>
                 {
-                    b.HasOne("FunPortal.Domain.Entities.Customer", "Customer")
+                    b.HasOne("FunPortal.Domain.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("CustomerId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Customer");
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("FunPortal.Domain.Entities.RefreshToken", b =>
+                {
+                    b.HasOne("FunPortal.Domain.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("FunPortal.Domain.Entities.ShippingSlip", b =>
                 {
-                    b.HasOne("FunPortal.Domain.Entities.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("FunPortal.Domain.Entities.PurchaseOrder", "PurchaseOrder")
                         .WithMany()
                         .HasForeignKey("PurchaseOrderId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Customer");
+                    b.HasOne("FunPortal.Domain.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("PurchaseOrder");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("FunPortal.Domain.Entities.PurchaseOrder", b =>

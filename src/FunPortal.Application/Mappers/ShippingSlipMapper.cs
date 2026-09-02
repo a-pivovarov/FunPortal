@@ -17,7 +17,7 @@ internal static class ShippingSlipMapper
         {
             ShippingSlipId = shippingSlip.ShippingSlipId,
             PurchaseOrderId = shippingSlip.PurchaseOrderId,
-            CustomerId = shippingSlip.CustomerId,
+            UserId = shippingSlip.UserId,
             Items = shippingSlip.Items,
             Status = shippingSlip.Status,
             GeneratedOn = shippingSlip.GeneratedOn
