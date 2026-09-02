@@ -8,9 +8,6 @@ public class CreatePurchaseOrderRequestValidator : AbstractValidator<CreatePurch
 {
     public CreatePurchaseOrderRequestValidator()
     {
-        RuleFor(x => x.UserId)
-            .GreaterThan(0).WithMessage("Invalid user ID");
-
         RuleFor(x => x.Items)
             .NotEmpty().WithMessage("Order must contain at least one item");
 

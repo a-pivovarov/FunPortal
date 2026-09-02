@@ -3,6 +3,8 @@ using Asp.Versioning;
 using Asp.Versioning.ApiExplorer;
 using FunPortal.Api.Extensions;
 using FunPortal.Api.Middleware;
+using FunPortal.Api.Services;
+using FunPortal.Application.Interfaces;
 using FunPortal.Application.Interfaces.Persistence;
 using FunPortal.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -11,6 +13,9 @@ using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IIdentityContext, IdentityContext>();
+
 // Add services to the container
 builder.Services.AddControllers();
 
@@ -18,7 +23,6 @@ builder.Services.AddControllers();
 builder.Services
     .AddApiVersioning(options =>
     {
-        options.DefaultApiVersion = new ApiVersion(1, 0);
         options.AssumeDefaultVersionWhenUnspecified = true;
         options.ReportApiVersions = true;
         options.ApiVersionReader = ApiVersionReader.Combine(

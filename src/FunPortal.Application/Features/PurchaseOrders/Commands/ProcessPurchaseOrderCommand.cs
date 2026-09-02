@@ -1,11 +1,13 @@
 ﻿using FunPortal.Application.DTOs.PurchaseOrders;
 using FunPortal.Application.Features.PurchaseOrders.Commands.Processing;
+using FunPortal.Application.Interfaces;
 using FunPortal.Application.Interfaces.Persistence;
 using FunPortal.Application.Interfaces.Repositories;
 using FunPortal.Domain.Entities;
 using FunPortal.Domain.Entities.Products;
 using FunPortal.Domain.Enums;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace FunPortal.Application.Features.PurchaseOrders.Commands;
 
@@ -13,48 +15,65 @@ public record ProcessPurchaseOrderCommand(CreatePurchaseOrderRequest Request)
     : IRequest<PurchaseOrderResponse>;
 
 public class ProcessPurchaseOrderCommandHandler(
+    IIdentityContext identityContext,
     IPurchaseOrderRepository purchaseOrderRepository,
     IUserRepository userRepository,
     IProductRepository productRepository,
     IPurchaseOrderProcessor purchaseOrderProcessor,
-    IUnitOfWork unitOfWork)
+    IUnitOfWork unitOfWork,
+    ILogger<ProcessPurchaseOrderCommandHandler> logger)
     : IRequestHandler<ProcessPurchaseOrderCommand, PurchaseOrderResponse>
 {
-    public async Task<PurchaseOrderResponse> Handle(ProcessPurchaseOrderCommand command, CancellationToken cancellationToken)
+    public async Task<PurchaseOrderResponse> Handle(
+        ProcessPurchaseOrderCommand command,
+        CancellationToken cancellationToken)
     {
-        // Validate user exists
-        var userExists = await userRepository.ExistsAsync(command.Request.UserId, cancellationToken);
-        if (!userExists)
-            throw new KeyNotFoundException($"User with ID {command.Request.UserId} not found");
+        var userId = identityContext.UserId;
+
+        // Validate user
+        var user = await userRepository.GetByIdAsync(userId, cancellationToken);
+        if (user == null || !user.IsActive || user.Role != UserRole.Admin)
+            throw new UnauthorizedAccessException("User is not authorized to place orders");
 
         // Validate all products exist and retrieve them
         var productDict = new Dictionary<int, Product>();
         foreach (var item in command.Request.Items)
         {
-            var product = await productRepository.GetByIdAsync(item.ProductId, cancellationToken);
-            if (product == null)
-                throw new KeyNotFoundException($"Product with ID {item.ProductId} not found");
+            var product = await productRepository.GetByIdAsync(item.ProductId, cancellationToken)
+                ?? throw new KeyNotFoundException($"Product with ID {item.ProductId} not found");
+
             productDict[item.ProductId] = product;
         }
 
         // Create purchase order
-        var purchaseOrder = CreatePurchaceOrder(command.Request, productDict);
+        var purchaseOrder = CreatePurchaceOrder(
+            command.Request.Items,
+            productDict,
+            userId);
 
         // Process the purchase order (save, apply business rules, etc.)
-        return await ProcessPurchaceOrderAsync(
+        return await ProcessPurchaseOrderAsync(
             purchaseOrder,
             productDict,
             cancellationToken);
     }
 
+    /// <summary>
+    /// Creates a new purchase order based on the provided items, product dictionary, and user ID.
+    /// </summary>
+    /// <param name="items">The items to include in the purchase order.</param>
+    /// <param name="productDict">A dictionary of product IDs to product entities.</param>
+    /// <param name="userId">The ID of the user placing the order.</param>
+    /// <returns>The created purchase order.</returns>
     private static PurchaseOrder CreatePurchaceOrder(
-        CreatePurchaseOrderRequest request,
-        Dictionary<int, Product> productDict)
+        IReadOnlyCollection<OrderItemDto> items,
+        Dictionary<int, Product> productDict,
+        int userId)
     {
         // Create purchase order
         var purchaseOrder = new PurchaseOrder
         {
-            UserId = request.UserId,
+            UserId = userId,
             OrderedOn = DateTime.UtcNow,
             Status = OrderStatus.Processing,
             ItemLines = []
@@ -62,7 +81,7 @@ public class ProcessPurchaseOrderCommandHandler(
 
         // Calculate total price and populate item lines
         decimal totalPrice = 0;
-        foreach (var item in request.Items)
+        foreach (var item in items)
         {
             var product = productDict[item.ProductId];
             var lineTotal = product.Price * item.Quantity;
@@ -82,7 +101,14 @@ public class ProcessPurchaseOrderCommandHandler(
         return purchaseOrder;
     }
 
-    private async Task<PurchaseOrderResponse> ProcessPurchaceOrderAsync(
+    /// <summary>
+    /// Processes the purchase order by saving it, applying business rules, and returning a response.
+    /// </summary>
+    /// <param name="purchaseOrder">The purchase order to process.</param>
+    /// <param name="productDict">A dictionary of product IDs to product entities.</param>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
+    /// <returns>The response containing details of the processed purchase order.</returns>
+    private async Task<PurchaseOrderResponse> ProcessPurchaseOrderAsync(
         PurchaseOrder purchaseOrder,
         Dictionary<int, Product> productDict,
         CancellationToken cancellationToken)
@@ -130,9 +156,10 @@ public class ProcessPurchaseOrderCommandHandler(
                     })]
             };
         }
-        catch
+        catch (Exception ex)
         {
             await unitOfWork.RollbackTransactionAsync(cancellationToken);
+            logger.LogError(ex, "An error occurred while processing the purchase order. Transaction rolled back.");
             throw;
         }
     }

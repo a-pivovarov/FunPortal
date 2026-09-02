@@ -2,6 +2,7 @@ using FunPortal.Application.DTOs.Auth;
 using FunPortal.Application.Interfaces.Persistence;
 using FunPortal.Application.Interfaces.Repositories;
 using FunPortal.Application.Interfaces.Services;
+using FunPortal.Application.Mappers;
 using FunPortal.Domain.Entities;
 using MediatR;
 using Microsoft.Extensions.Configuration;
@@ -49,12 +50,9 @@ public class RefreshTokenCommandHandler(
 
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return new TokenResponse
-        {
-            AccessToken = accessToken,
-            RefreshToken = newRefreshToken,
-            ExpiresIn = expirationMinutes * 60,
-            TokenType = "Bearer"
-        };
+        return TokenMapper.ToTokenResponse(
+            accessToken,
+            newRefreshToken,
+            expirationMinutes);
     }
 }

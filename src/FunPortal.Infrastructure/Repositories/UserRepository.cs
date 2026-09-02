@@ -30,9 +30,4 @@ public class UserRepository(FunPortalDbContext context)
     {
         context.Users.Update(user);
     }
-
-    public async Task<bool> ExistsAsync(int userId, CancellationToken cancellationToken)
-    {
-        return await context.Users.AnyAsync(u => u.UserId == userId, cancellationToken);
-    }
 }

@@ -12,7 +12,9 @@ public record GetAllProductsQuery(ProductType? ProductType = null)
 public class GetAllProductsQueryHandler(IProductRepository productRepository)
     : IRequestHandler<GetAllProductsQuery, IReadOnlyCollection<ProductDto>>
 {
-    public async Task<IReadOnlyCollection<ProductDto>> Handle(GetAllProductsQuery query, CancellationToken cancellationToken)
+    public async Task<IReadOnlyCollection<ProductDto>> Handle(
+        GetAllProductsQuery query,
+        CancellationToken cancellationToken)
     {
         var products = await productRepository
             .GetAllAsync(query.ProductType, cancellationToken);

@@ -11,81 +11,108 @@
       "name": "v1",
       "item": [
         {
-          "name": "Customers",
+          "name": "Auth",
           "item": [
             {
-              "name": "Customers - GetAll",
+              "name": "Auth - Register - User",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"username\": \"John Smith\",\r\n  \"email\": \"john.smith@example.com\",\r\n  \"password\": \"Pa$$w0rd\",\r\n  \"role\": 0,\r\n  \"phone\": \"+1-555-0100\",\r\n  \"address\": \"100 Main St, Seattle, WA\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{api_v1_url}}/Auth/register",
+                  "host": [
+                    "{{api_v1_url}}"
+                  ],
+                  "path": [
+                    "Auth",
+                    "register"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Auth - Register - Admin",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"username\": \"Alice Cooper\",\r\n  \"email\": \"alice.cooper@example.com\",\r\n  \"password\": \"Pa$$w0rd\",\r\n  \"role\": 1,\r\n  \"phone\": \"+1-777-0234\",\r\n  \"address\": \"130 Main St, Seattle, WA\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{api_v1_url}}/Auth/register",
+                  "host": [
+                    "{{api_v1_url}}"
+                  ],
+                  "path": [
+                    "Auth",
+                    "register"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Auth - Login",
               "event": [
                 {
                   "listen": "test",
                   "script": {
-                    "exec": [
-                      "pm.test(\"Status code is 200\", function() {\r",
-                      "    pm.response.to.have.status(200);\r",
-                      "});\r",
-                      "\r",
-                      "pm.test(\"Response has customers collection\", function () {\r",
-                      "  const json = pm.response.json();\r",
-                      "  pm.expect(json).to.have.length.above(2);\r",
-                      "\r",
-                      "  var customer = json[0];\r",
-                      "  pm.expect(customer).to.have.property(\"name\", \"John Doe\");\r",
-                      "});"
-                    ],
                     "type": "text/javascript",
-                    "packages": {},
-                    "requests": {}
+                    "exec": [
+                      "const token = pm.response.json();\r\n\r\npm.test(\"Has properties\", function () {\r\n    pm.expect(token).to.have.property('accessToken');\r\n    pm.expect(token).to.have.property('refreshToken');\r\n});\r\n\r\nif (pm.test(\"Has properties\")) {\r\n    pm.collectionVariables.set('accessToken', token.accessToken);\r\n}"
+                    ]
                   }
                 }
               ],
               "request": {
-                "method": "GET",
-                "header": [],
-                "url": {
-                  "raw": "{{api_v1_url}}/customers",
-                  "host": [
-                    "{{api_v1_url}}"
-                  ],
-                  "path": [
-                    "customers"
-                  ]
-                }
-              },
-              "response": []
-            },
-            {
-              "name": "Costomers - GetById",
-              "protocolProfileBehavior": {
-                "disableBodyPruning": true
-              },
-              "request": {
-                "method": "GET",
+                "method": "POST",
                 "header": [],
                 "body": {
-                  "mode": "urlencoded",
-                  "urlencoded": []
+                  "mode": "raw",
+                  "raw": "{\r\n  \"email\": \"alice.cooper@example.com\",\r\n  \"password\": \"Pa$$w0rd\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
                 },
                 "url": {
-                  "raw": "{{api_v1_url}}/customers/2",
+                  "raw": "{{api_v1_url}}/Auth/login",
                   "host": [
                     "{{api_v1_url}}"
                   ],
                   "path": [
-                    "customers",
-                    "2"
+                    "Auth",
+                    "login"
                   ]
                 }
               },
               "response": []
             },
             {
-              "name": "Customers - Create",
+              "name": "Auth - Refresh token",
               "request": {
                 "method": "POST",
                 "header": [],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\r\n  \"name\": \"John Smith\",\r\n  \"email\": \"john.smith@example.com\",\r\n  \"phone\": \"123-4567\",\r\n  \"address\": \"445 Main St, Marshfield\"\r\n}",
+                  "raw": "{\r\n  \"refreshToken\": \"fa658238-924f-43b1-b1ac-03faf389bd6f\"\r\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -93,25 +120,26 @@
                   }
                 },
                 "url": {
-                  "raw": "{{api_v1_url}}/customers",
+                  "raw": "{{api_v1_url}}/Auth/refresh",
                   "host": [
                     "{{api_v1_url}}"
                   ],
                   "path": [
-                    "customers"
+                    "Auth",
+                    "refresh"
                   ]
                 }
               },
               "response": []
             },
             {
-              "name": "Customers - Create - Validation Error",
+              "name": "Auth - Revoke token",
               "request": {
                 "method": "POST",
                 "header": [],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\r\n  \"name\": \"\",\r\n  \"email\": \"john.smith\",\r\n  \"phone\": \"123-4567\",\r\n  \"address\": \"445 Main St, Marshfield\"\r\n}",
+                  "raw": "{\r\n  \"refreshToken\": \"fa658238-924f-43b1-b1ac-03faf389bd6f\"\r\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -119,84 +147,13 @@
                   }
                 },
                 "url": {
-                  "raw": "{{api_v1_url}}/customers",
+                  "raw": "{{api_v1_url}}/Auth/revoke",
                   "host": [
                     "{{api_v1_url}}"
                   ],
                   "path": [
-                    "customers"
-                  ]
-                }
-              },
-              "response": []
-            },
-            {
-              "name": "Customers - Update",
-              "request": {
-                "method": "PUT",
-                "header": [],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\r\n  \"name\": \"John Smith Updated\",\r\n  \"email\": \"john.smith@example.com\",\r\n  \"phone\": \"123-4568\",\r\n  \"address\": \"445 Main St, Marshfield Updated\"\r\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                },
-                "url": {
-                  "raw": "{{api_v1_url}}/customers/12",
-                  "host": [
-                    "{{api_v1_url}}"
-                  ],
-                  "path": [
-                    "customers",
-                    "12"
-                  ]
-                }
-              },
-              "response": []
-            },
-            {
-              "name": "Customers - Update - Validation Error",
-              "request": {
-                "method": "PUT",
-                "header": [],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\r\n  \"name\": \"\",\r\n  \"email\": \"john\",\r\n  \"phone\": \"123-4568123-4568123-4568123-4568\",\r\n  \"address\": \"445 Main St, Marshfield Updated\"\r\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                },
-                "url": {
-                  "raw": "{{api_v1_url}}/customers/11",
-                  "host": [
-                    "{{api_v1_url}}"
-                  ],
-                  "path": [
-                    "customers",
-                    "11"
-                  ]
-                }
-              },
-              "response": []
-            },
-            {
-              "name": "Customers - Delete",
-              "request": {
-                "method": "DELETE",
-                "header": [],
-                "url": {
-                  "raw": "{{api_v1_url}}/customers/16",
-                  "host": [
-                    "{{api_v1_url}}"
-                  ],
-                  "path": [
-                    "customers",
-                    "16"
+                    "Auth",
+                    "revoke"
                   ]
                 }
               },
@@ -210,17 +167,27 @@
             {
               "name": "Memberships - Get customer's memberships",
               "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{accessToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{api_v1_url}}/memberships/customer/1",
+                  "raw": "{{api_v1_url}}/memberships/user/5",
                   "host": [
                     "{{api_v1_url}}"
                   ],
                   "path": [
                     "memberships",
-                    "customer",
-                    "1"
+                    "user",
+                    "5"
                   ]
                 }
               },
@@ -233,16 +200,19 @@
           "item": [
             {
               "name": "Products - GetAll",
-              "protocolProfileBehavior": {
-                "disableBodyPruning": true
-              },
               "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{accessToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
                 "method": "GET",
                 "header": [],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\r\n  \"name\": \"\",\r\n  \"email\": \"john.smith\",\r\n  \"phone\": \"123-4567\",\r\n  \"address\": \"445 Main St, Marshfield\"\r\n}"
-                },
                 "url": {
                   "raw": "{{api_v1_url}}/products",
                   "host": [
@@ -258,6 +228,16 @@
             {
               "name": "Products - GetAll by productType",
               "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{accessToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
                 "method": "GET",
                 "header": [],
                 "url": {
@@ -281,11 +261,21 @@
             {
               "name": "Products - Create Book",
               "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{accessToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
                 "method": "POST",
                 "header": [],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\r\n  \"name\": \"Book Lovers\",\r\n  \"price\": 17.88,\r\n  \"productType\": 1,\r\n  \"author\": \"Emily Henry\",\r\n  \"isbn\": \"978-0132350999\"\r\n}",
+                  "raw": "{\r\n  \"name\": \"C# in Depth (4th Edition)\",\r\n  \"price\": 17.88,\r\n  \"productType\": 1,\r\n  \"author\": \"Henry P\",\r\n  \"isbn\": \"978-0132350999\"\r\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -307,11 +297,21 @@
             {
               "name": "Products - Create Video",
               "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{accessToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
                 "method": "POST",
                 "header": [],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\r\n  \"name\": \"The Transporter\",\r\n  \"price\": 40.99,\r\n  \"productType\": 2,\r\n  \"director\": \"Louis Leterrier\",\r\n  \"durationMinutes\": 86\r\n}",
+                  "raw": "{\r\n  \"name\": \"The Movie\",\r\n  \"price\": 42.99,\r\n  \"productType\": 2,\r\n  \"director\": \"Tom Pink\",\r\n  \"durationMinutes\": 92\r\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -333,11 +333,21 @@
             {
               "name": "Products - Create Membership",
               "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{accessToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
                 "method": "POST",
                 "header": [],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\r\n  \"name\": \"Book Club Membership\",\r\n  \"price\": 49.99,\r\n  \"productType\": 3,\r\n  \"membershipType\": 1,\r\n  \"durationMonths\": 24\r\n}",
+                  "raw": "{\r\n  \"name\": \"Premium Club Membership\",\r\n  \"price\": 99.99,\r\n  \"productType\": 3,\r\n  \"membershipType\": 3,\r\n  \"durationMonths\": 24\r\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -359,16 +369,26 @@
             {
               "name": "Products - Get by id",
               "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{accessToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{api_v1_url}}/products/2",
+                  "raw": "{{api_v1_url}}/products/11",
                   "host": [
                     "{{api_v1_url}}"
                   ],
                   "path": [
                     "products",
-                    "2"
+                    "11"
                   ]
                 }
               },
@@ -377,11 +397,21 @@
             {
               "name": "Products - Update",
               "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{accessToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
                 "method": "PUT",
                 "header": [],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\r\n  \"name\": \"Book Lovers Updated\",\r\n  \"price\": 18.88,\r\n  \"productType\": 1,\r\n  \"author\": \"Emily Henry Updated\",\r\n  \"isbn\": \"978-0132350999\"\r\n}",
+                  "raw": "{\r\n  \"name\": \"Book Lovers\",\r\n  \"price\": 18.88,\r\n  \"productType\": 1,\r\n  \"author\": \"Emily Henry\",\r\n  \"isbn\": \"978-0132350999\"\r\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -389,13 +419,13 @@
                   }
                 },
                 "url": {
-                  "raw": "{{api_v1_url}}/products/8",
+                  "raw": "{{api_v1_url}}/products/11",
                   "host": [
                     "{{api_v1_url}}"
                   ],
                   "path": [
                     "products",
-                    "8"
+                    "11"
                   ]
                 }
               },
@@ -404,20 +434,26 @@
             {
               "name": "Products - Delete",
               "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{accessToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
                 "method": "DELETE",
                 "header": [],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\r\n  \"name\": \"Book Lovers Updated\",\r\n  \"price\": 18.88,\r\n  \"productType\": 1,\r\n  \"author\": \"Emily Henry Updated\",\r\n  \"isbn\": \"978-0132350999\"\r\n}"
-                },
                 "url": {
-                  "raw": "{{api_v1_url}}/products/10",
+                  "raw": "{{api_v1_url}}/products/17",
                   "host": [
                     "{{api_v1_url}}"
                   ],
                   "path": [
                     "products",
-                    "10"
+                    "17"
                   ]
                 }
               },
@@ -431,11 +467,21 @@
             {
               "name": "PurchaseOrders - Create Book & Video",
               "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{accessToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
                 "method": "POST",
                 "header": [],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\r\n  \"customerId\": 2,\r\n  \"items\": [\r\n    {\r\n      \"productId\": 1,\r\n      \"quantity\": 2\r\n    },\r\n    {\r\n      \"productId\": 3,\r\n      \"quantity\": 1\r\n    }\r\n  ]\r\n}",
+                  "raw": "{\r\n  \"items\": [\r\n    {\r\n      \"productId\": 11,\r\n      \"quantity\": 2\r\n    },\r\n    {\r\n      \"productId\": 13,\r\n      \"quantity\": 1\r\n    }\r\n  ]\r\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -457,11 +503,21 @@
             {
               "name": "PurchaseOrders - Create Video & Premium Membership",
               "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{accessToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
                 "method": "POST",
                 "header": [],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\r\n  \"customerId\": 2,\r\n  \"items\": [\r\n    {\r\n      \"productId\": 3,\r\n      \"quantity\": 2\r\n    },\r\n    {\r\n      \"productId\": 6,\r\n      \"quantity\": 1\r\n    }\r\n  ]\r\n}",
+                  "raw": "{\r\n  \"items\": [\r\n    {\r\n      \"productId\": 13,\r\n      \"quantity\": 2\r\n    },\r\n    {\r\n      \"productId\": 18,\r\n      \"quantity\": 1\r\n    }\r\n  ]\r\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -483,6 +539,16 @@
             {
               "name": "PurchaseOrders - Get by Order Id",
               "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{accessToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
                 "method": "GET",
                 "header": [],
                 "url": {
@@ -499,19 +565,29 @@
               "response": []
             },
             {
-              "name": "PurchaseOrders - Get by Customer Id",
+              "name": "PurchaseOrders - Get by User Id",
               "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{accessToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{api_v1_url}}/PurchaseOrders/customer/2",
+                  "raw": "{{api_v1_url}}/PurchaseOrders/user/5",
                   "host": [
                     "{{api_v1_url}}"
                   ],
                   "path": [
                     "PurchaseOrders",
-                    "customer",
-                    "2"
+                    "user",
+                    "5"
                   ]
                 }
               },
@@ -525,16 +601,26 @@
             {
               "name": "ShippingSlips - Get by Id",
               "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{accessToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{api_v1_url}}/ShippingSlips/2",
+                  "raw": "{{api_v1_url}}/ShippingSlips/1",
                   "host": [
                     "{{api_v1_url}}"
                   ],
                   "path": [
                     "ShippingSlips",
-                    "2"
+                    "1"
                   ]
                 }
               },
@@ -543,17 +629,27 @@
             {
               "name": "ShippingSlips - Get by PurchaseOrder Id",
               "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{accessToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{api_v1_url}}/ShippingSlips/order/5",
+                  "raw": "{{api_v1_url}}/ShippingSlips/order/1",
                   "host": [
                     "{{api_v1_url}}"
                   ],
                   "path": [
                     "ShippingSlips",
                     "order",
-                    "5"
+                    "1"
                   ]
                 }
               },
@@ -596,6 +692,10 @@
     {
       "key": "api_v1_url",
       "value": "{{base_api_url}}/v1"
+    },
+    {
+      "key": "accessToken",
+      "value": ""
     }
   ]
 }

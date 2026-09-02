@@ -5,6 +5,7 @@ using FunPortal.Application.Features.PurchaseOrders.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace FunPortal.Api.Controllers.v1;
 
@@ -15,19 +16,17 @@ namespace FunPortal.Api.Controllers.v1;
 public class PurchaseOrdersController(IMediator mediator) : ControllerBase
 {
     /// <summary>
-    /// Create and process a purchase order
+    /// Create a new purchase order
     /// </summary>
-    /// <remarks>
-    /// This endpoint processes purchase orders and applies business rules:
-    /// - BR1: Memberships are activated immediately
-    /// - BR2: Shipping slips are generated for physical products
-    /// </remarks>
+    /// <param name="request">The purchase order to create</param>
+    /// <param name="cancellationToken">A cancellation token</param>
+    /// <returns>The created purchase order</returns>
     [HttpPost]
     [ProducesResponseType(typeof(PurchaseOrderResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<PurchaseOrderResponse>> CreateAsync(
-        [FromBody] CreatePurchaseOrderRequest request,
+        [SwaggerParameter("The purchase order to create"), FromBody] CreatePurchaseOrderRequest request,
         CancellationToken cancellationToken)
     {
         var result = await mediator.Send(new ProcessPurchaseOrderCommand(request), cancellationToken);
@@ -35,14 +34,17 @@ public class PurchaseOrdersController(IMediator mediator) : ControllerBase
     }
 
     /// <summary>
-    /// Get purchase order by ID
+    /// Get a purchase order by its ID
     /// </summary>
+    /// <param name="id">The ID of the purchase order to retrieve</param>
+    /// <param name="cancellationToken">A cancellation token</param>
+    /// <returns>The purchase order with the specified ID</returns>
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(PurchaseOrderResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [Authorize(Roles = "Admin")]
     public async Task<ActionResult<PurchaseOrderResponse>> GetByIdAsync(
-        int id,
+        [SwaggerParameter("The ID of the purchase order to retrieve"), FromRoute] int id,
         CancellationToken cancellationToken)
     {
         var result = await mediator.Send(new GetPurchaseOrderQuery(id), cancellationToken);
@@ -60,7 +62,7 @@ public class PurchaseOrdersController(IMediator mediator) : ControllerBase
     [ProducesResponseType(typeof(IReadOnlyCollection<PurchaseOrderResponse>), StatusCodes.Status200OK)]
     [Authorize(Roles = "Admin")]
     public async Task<ActionResult<IReadOnlyCollection<PurchaseOrderResponse>>> GetByUserAsync(
-        int userId,
+        [SwaggerParameter("The ID of the user to retrieve purchase orders for"), FromRoute] int userId,
         CancellationToken cancellationToken)
     {
         var result = await mediator.Send(new GetUserPurchaseOrdersQuery(userId), cancellationToken);

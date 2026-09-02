@@ -1,8 +1,10 @@
-﻿namespace FunPortal.Application.DTOs.PurchaseOrders;
+﻿using Swashbuckle.AspNetCore.Annotations;
 
+namespace FunPortal.Application.DTOs.PurchaseOrders;
+
+[SwaggerSchema("Request model for creating a purchase order")]
 public class CreatePurchaseOrderRequest
 {
-    public int UserId { get; set; }
-
-    public List<OrderItemDto> Items { get; set; } = [];
+    [SwaggerSchema("The items included in the purchase order")]
+    public IReadOnlyCollection<OrderItemDto> Items { get; set; } = [];
 }

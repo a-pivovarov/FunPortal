@@ -11,6 +11,4 @@ public interface IUserRepository
     User Add(User user);
 
     void Update(User user);
-
-    Task<bool> ExistsAsync(int userId, CancellationToken cancellationToken);
 }
