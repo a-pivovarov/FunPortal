@@ -1,6 +1,6 @@
-﻿using FunPortal.Application.DTOs.ShippingSlips;
+﻿using AutoMapper;
+using FunPortal.Application.DTOs.ShippingSlips;
 using FunPortal.Application.Interfaces.Repositories;
-using FunPortal.Application.Mappers;
 using MediatR;
 
 namespace FunPortal.Application.Features.ShippingSlips.Queries;
@@ -8,7 +8,8 @@ namespace FunPortal.Application.Features.ShippingSlips.Queries;
 public record GetShippingSlipQuery(int Id) : IRequest<ShippingSlipDto?>;
 
 public class GetShippingSlipQueryHandler(
-    IShippingSlipRepository shippingSlipRepository)
+    IShippingSlipRepository shippingSlipRepository,
+    IMapper mapper)
     : IRequestHandler<GetShippingSlipQuery, ShippingSlipDto?>
 {
     public async Task<ShippingSlipDto?> Handle(GetShippingSlipQuery query, CancellationToken cancellationToken)
@@ -17,6 +18,6 @@ public class GetShippingSlipQueryHandler(
         if (shippingSlip == null)
             return null;
 
-        return shippingSlip.ToDto();
+        return mapper.Map<ShippingSlipDto>(shippingSlip);
     }
 }

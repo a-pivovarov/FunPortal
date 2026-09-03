@@ -56,6 +56,9 @@ builder.Services.AddRepositories();
 // Add Services
 builder.Services.AddServices();
 
+// Add AutoMapper
+builder.Services.AddAutoMapper(cfg => cfg.AddMaps(AppDomain.CurrentDomain.GetAssemblies()));
+
 // Add Authentication and Authorization
 builder.Services.AddAuthentication(options =>
 {

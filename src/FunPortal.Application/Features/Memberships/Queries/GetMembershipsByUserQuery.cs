@@ -1,6 +1,6 @@
-﻿using FunPortal.Application.DTOs.Memberships;
+﻿using AutoMapper;
+using FunPortal.Application.DTOs.Memberships;
 using FunPortal.Application.Interfaces.Repositories;
-using FunPortal.Application.Mappers;
 using MediatR;
 
 namespace FunPortal.Application.Features.Memberships.Queries;
@@ -9,7 +9,8 @@ public record GetMembershipsByUserQuery(int UserId)
     : IRequest<IReadOnlyCollection<MembershipDto>>;
 
 public class GetMembershipsByUserQueryHandler(
-    IMembershipRepository membershipRepository)
+    IMembershipRepository membershipRepository,
+    IMapper mapper)
     : IRequestHandler<GetMembershipsByUserQuery, IReadOnlyCollection<MembershipDto>>
 {
     public async Task<IReadOnlyCollection<MembershipDto>> Handle(
@@ -19,6 +20,6 @@ public class GetMembershipsByUserQueryHandler(
         var memberships = await membershipRepository
             .GetByUserIdAsync(request.UserId, cancellationToken);
 
-        return memberships.ToMembershipDtos();
+        return mapper.Map<IReadOnlyCollection<MembershipDto>>(memberships);
     }
 }

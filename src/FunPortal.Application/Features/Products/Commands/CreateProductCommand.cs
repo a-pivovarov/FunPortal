@@ -1,7 +1,7 @@
-﻿using FunPortal.Application.DTOs.Products;
+﻿using AutoMapper;
+using FunPortal.Application.DTOs.Products;
 using FunPortal.Application.Interfaces.Persistence;
 using FunPortal.Application.Interfaces.Repositories;
-using FunPortal.Application.Mappers;
 using FunPortal.Domain.Entities.Products;
 using FunPortal.Domain.Enums;
 using MediatR;
@@ -12,7 +12,8 @@ public record CreateProductCommand(CreateProductRequest Request) : IRequest<Prod
 
 public class CreateProductCommandHandler(
     IProductRepository productRepository,
-    IUnitOfWork unitOfWork)
+    IUnitOfWork unitOfWork,
+    IMapper mapper)
     : IRequestHandler<CreateProductCommand, ProductDto>
 {
     public async Task<ProductDto> Handle(CreateProductCommand command, CancellationToken cancellationToken)
@@ -45,6 +46,6 @@ public class CreateProductCommandHandler(
         var created = productRepository.Add(product);
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return created.MapToDto();
+        return mapper.Map<ProductDto>(created);
     }
 }

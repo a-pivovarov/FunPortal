@@ -1,6 +1,6 @@
-﻿using FunPortal.Application.DTOs.PurchaseOrders;
+﻿using AutoMapper;
+using FunPortal.Application.DTOs.PurchaseOrders;
 using FunPortal.Application.Interfaces.Repositories;
-using FunPortal.Application.Mappers;
 using MediatR;
 
 namespace FunPortal.Application.Features.PurchaseOrders.Queries;
@@ -8,7 +8,8 @@ namespace FunPortal.Application.Features.PurchaseOrders.Queries;
 public record GetPurchaseOrderQuery(int PurchaseOrderId) : IRequest<PurchaseOrderResponse?>;
 
 public class GetPurchaseOrderQueryHandler(
-    IPurchaseOrderRepository purchaseOrderRepository)
+    IPurchaseOrderRepository purchaseOrderRepository,
+    IMapper mapper)
     : IRequestHandler<GetPurchaseOrderQuery, PurchaseOrderResponse?>
 {
     public async Task<PurchaseOrderResponse?> Handle(
@@ -21,6 +22,6 @@ public class GetPurchaseOrderQueryHandler(
         if (order == null)
             return null;
 
-        return order.ToPurchaseOrderResponse();
+        return mapper.Map<PurchaseOrderResponse>(order);
     }
 }

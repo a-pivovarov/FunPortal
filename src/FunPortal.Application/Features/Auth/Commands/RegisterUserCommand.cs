@@ -1,8 +1,8 @@
+using AutoMapper;
 using FunPortal.Application.DTOs.Auth;
 using FunPortal.Application.Interfaces.Persistence;
 using FunPortal.Application.Interfaces.Repositories;
 using FunPortal.Application.Interfaces.Services;
-using FunPortal.Application.Mappers;
 using FunPortal.Domain.Entities;
 using FunPortal.Domain.Enums;
 using MediatR;
@@ -14,7 +14,9 @@ public record RegisterUserCommand(RegisterUserRequest Request) : IRequest<UserDt
 public class RegisterUserCommandHandler(
     IUserRepository userRepository,
     IPasswordHasher passwordHasher,
-    IUnitOfWork unitOfWork) : IRequestHandler<RegisterUserCommand, UserDto>
+    IUnitOfWork unitOfWork,
+    IMapper mapper)
+    : IRequestHandler<RegisterUserCommand, UserDto>
 {
     public async Task<UserDto> Handle(RegisterUserCommand command, CancellationToken cancellationToken)
     {
@@ -44,6 +46,6 @@ public class RegisterUserCommandHandler(
         var createdUser = userRepository.Add(user);
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return createdUser.ToUserDto();
+        return mapper.Map<UserDto>(createdUser);
     }
 }
