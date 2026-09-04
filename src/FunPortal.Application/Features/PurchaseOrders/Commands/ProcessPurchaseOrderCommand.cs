@@ -1,11 +1,12 @@
-﻿using FunPortal.Application.DTOs.PurchaseOrders;
+﻿using FunPortal.Application.DTOs.Enums;
+using FunPortal.Application.DTOs.PurchaseOrders;
 using FunPortal.Application.Features.PurchaseOrders.Commands.Processing;
 using FunPortal.Application.Interfaces;
 using FunPortal.Application.Interfaces.Persistence;
 using FunPortal.Application.Interfaces.Repositories;
 using FunPortal.Domain.Entities;
 using FunPortal.Domain.Entities.Products;
-using FunPortal.Domain.Enums;
+
 using MediatR;
 using Microsoft.Extensions.Logging;
 
@@ -32,7 +33,7 @@ public class ProcessPurchaseOrderCommandHandler(
 
         // Validate user
         var user = await userRepository.GetByIdAsync(userId, cancellationToken);
-        if (user == null || !user.IsActive || user.Role != UserRole.Admin)
+        if (user == null || !user.IsActive || user.Role != Domain.Enums.UserRole.Admin)
             throw new UnauthorizedAccessException("User is not authorized to place orders");
 
         // Validate all products exist and retrieve them
@@ -75,7 +76,7 @@ public class ProcessPurchaseOrderCommandHandler(
         {
             UserId = userId,
             OrderedOn = DateTime.UtcNow,
-            Status = OrderStatus.Processing,
+            Status = Domain.Enums.OrderStatus.Processing,
             ItemLines = []
         };
 
@@ -141,7 +142,7 @@ public class ProcessPurchaseOrderCommandHandler(
                 UserId = savedOrder.UserId,
                 TotalPrice = savedOrder.TotalPrice,
                 OrderedOn = savedOrder.OrderedOn,
-                Status = savedOrder.Status,
+                Status =  (OrderStatus)savedOrder.Status,
                 ActivatedMembershipsCount = context.ActivatedMembershipsCount,
                 GeneratedShippingSlipsCount = context.GeneratedShippingSlipsCount,
                 Items = [.. savedOrder

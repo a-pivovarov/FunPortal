@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
+using FunPortal.Application.DTOs.Enums;
 using FunPortal.Application.DTOs.Products;
 using FunPortal.Application.Interfaces.Persistence;
 using FunPortal.Application.Interfaces.Repositories;
 using FunPortal.Domain.Entities.Products;
-using FunPortal.Domain.Enums;
 using MediatR;
 
 namespace FunPortal.Application.Features.Products.Commands;
@@ -32,13 +32,13 @@ public class CreateProductCommandHandler(
             },
             ProductType.Membership => new MembershipProduct
             {
-                MembershipType = command.Request.MembershipType!.Value,
+                MembershipType = (Domain.Enums.MembershipType)command.Request.MembershipType!.Value,
                 DurationMonths = command.Request.DurationMonths!.Value
             },
             _ => throw new ArgumentException("Invalid product type")
         };
 
-        product.ProductType = command.Request.ProductType;
+        product.ProductType = (Domain.Enums.ProductType)command.Request.ProductType;
         product.Name = command.Request.Name;
         product.Price = command.Request.Price;
         product.CreatedOn = DateTime.UtcNow;

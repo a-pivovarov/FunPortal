@@ -1,10 +1,10 @@
 using AutoMapper;
 using FunPortal.Application.DTOs.Auth;
+using FunPortal.Application.DTOs.Enums;
 using FunPortal.Application.Interfaces.Persistence;
 using FunPortal.Application.Interfaces.Repositories;
 using FunPortal.Application.Interfaces.Services;
 using FunPortal.Domain.Entities;
-using FunPortal.Domain.Enums;
 using MediatR;
 
 namespace FunPortal.Application.Features.Auth.Commands;
@@ -36,7 +36,7 @@ public class RegisterUserCommandHandler(
             Username = request.Username,
             Email = request.Email,
             PasswordHash = passwordHash,
-            Role = request.Role ?? UserRole.User,
+            Role = (Domain.Enums.UserRole)(request.Role ?? UserRole.User),
             Phone = request.Phone,
             Address = request.Address,
             CreatedOn = DateTime.UtcNow,

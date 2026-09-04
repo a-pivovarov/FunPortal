@@ -1,4 +1,4 @@
-using FunPortal.Domain.Enums;
+using FunPortal.Application.DTOs.Enums;
 using Swashbuckle.AspNetCore.Annotations;
 using System.ComponentModel.DataAnnotations;
 
@@ -23,7 +23,6 @@ public class RegisterUserRequest
     [SwaggerSchema("The role of the new user.")]
     public UserRole? Role { get; set; }
 
-    // Add these instead:
     [SwaggerSchema("The phone number of the new user.")]
     public string? Phone { get; set; }
 

@@ -44,7 +44,7 @@ namespace FunPortal.Application.Tests.Features.PurchaseOrders.Commands.Processin
             var rule = new CompleteOrderRule();
             var context = new OrderProcessingContext
             {
-                Order = new PurchaseOrder { Status = OrderStatus.Pending },
+                Order = new PurchaseOrder { Status = Domain.Enums.OrderStatus.Pending },
                 Products = []
             };
 
@@ -52,7 +52,7 @@ namespace FunPortal.Application.Tests.Features.PurchaseOrders.Commands.Processin
             await rule.ExecuteAsync(context, CancellationToken.None);
             
             // Assert
-            context.Order.Status.Should().Be(OrderStatus.Completed);
+            context.Order.Status.Should().Be(Domain.Enums.OrderStatus.Completed);
         }
     }
 }

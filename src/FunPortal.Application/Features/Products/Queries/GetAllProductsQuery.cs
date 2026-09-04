@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
+using FunPortal.Application.DTOs.Enums;
 using FunPortal.Application.DTOs.Products;
 using FunPortal.Application.Interfaces.Repositories;
-using FunPortal.Domain.Enums;
 using MediatR;
 
 namespace FunPortal.Application.Features.Products.Queries;
@@ -19,7 +19,7 @@ public class GetAllProductsQueryHandler(
         CancellationToken cancellationToken)
     {
         var products = await productRepository
-            .GetAllAsync(query.ProductType, cancellationToken);
+            .GetAllAsync((Domain.Enums.ProductType?)query.ProductType, cancellationToken);
 
         return mapper.Map<IReadOnlyCollection<ProductDto>>(products);
     }

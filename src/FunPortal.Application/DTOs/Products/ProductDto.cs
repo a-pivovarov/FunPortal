@@ -1,4 +1,4 @@
-using FunPortal.Domain.Enums;
+using FunPortal.Application.DTOs.Enums;
 
 namespace FunPortal.Application.DTOs.Products;
 

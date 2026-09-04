@@ -1,5 +1,6 @@
 ﻿using AutoFixture;
 using FluentAssertions;
+using FunPortal.Application.DTOs.Enums;
 using FunPortal.Application.DTOs.PurchaseOrders;
 using FunPortal.Application.Features.PurchaseOrders.Commands;
 using FunPortal.Application.Features.PurchaseOrders.Commands.Processing;
@@ -8,7 +9,6 @@ using FunPortal.Application.Interfaces.Persistence;
 using FunPortal.Application.Interfaces.Repositories;
 using FunPortal.Domain.Entities;
 using FunPortal.Domain.Entities.Products;
-using FunPortal.Domain.Enums;
 using Microsoft.Extensions.Logging;
 using Moq;
 
@@ -94,7 +94,7 @@ namespace FunPortal.Application.Tests.Features.PurchaseOrders.Commands
                     Price = price,
                     Author = $"Author {item.ProductId}",
                     ISBN = $"ISBN-{item.ProductId}",
-                    ProductType = ProductType.PhysicalBook,
+                    ProductType = Domain.Enums.ProductType.PhysicalBook,
                     CreatedOn = DateTime.UtcNow,
                 };
 
@@ -130,7 +130,7 @@ namespace FunPortal.Application.Tests.Features.PurchaseOrders.Commands
             result.UserId.Should().Be(expectedSavedOrder.UserId);
             result.TotalPrice.Should().Be(expectedSavedOrder.TotalPrice);
             result.OrderedOn.Should().Be(expectedSavedOrder.OrderedOn);
-            result.Status.Should().Be(expectedSavedOrder.Status);
+            result.Status.Should().Be((OrderStatus)expectedSavedOrder.Status);
 
             result.Items.Should().HaveCount(expectedSavedOrder.ItemLines.Count);
 
@@ -170,7 +170,7 @@ namespace FunPortal.Application.Tests.Features.PurchaseOrders.Commands
                     Price = price,
                     Author = $"Author {item.ProductId}",
                     ISBN = $"ISBN-{item.ProductId}",
-                    ProductType = ProductType.PhysicalBook,
+                    ProductType = Domain.Enums.ProductType.PhysicalBook,
                     CreatedOn = DateTime.UtcNow,
                 };
 
@@ -271,7 +271,7 @@ namespace FunPortal.Application.Tests.Features.PurchaseOrders.Commands
                         UserId = UserId,
                         Email = "user@example.com",
                         IsActive = true,
-                        Role = UserRole.Admin,
+                        Role = Domain.Enums.UserRole.Admin,
                     });
             }
         }

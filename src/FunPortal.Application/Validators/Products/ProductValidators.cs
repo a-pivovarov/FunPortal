@@ -1,7 +1,7 @@
 using FluentValidation;
+using FunPortal.Application.DTOs.Enums;
 using FunPortal.Application.DTOs.Products;
 using FunPortal.Application.Features.Products.Commands;
-using FunPortal.Domain.Enums;
 
 namespace FunPortal.Application.Validators.Products;
 
