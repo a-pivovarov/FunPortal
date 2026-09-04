@@ -8,6 +8,8 @@ public class BookConfiguration : IEntityTypeConfiguration<Book>
 {
     public void Configure(EntityTypeBuilder<Book> builder)
     {
+        // Map derived type to its own table (TPT)
+        builder.ToTable("Books");
         builder.Property(e => e.Author)
             .HasMaxLength(200);
 

@@ -3,6 +3,7 @@ using System;
 using FunPortal.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FunPortal.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(FunPortalDbContext))]
-    partial class FunPortalDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260904080135_SplitProductsIntoDerivedTables")]
+    partial class SplitProductsIntoDerivedTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.11");

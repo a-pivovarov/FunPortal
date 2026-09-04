@@ -24,11 +24,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
 
         builder.Property(e => e.CreatedOn)
             .IsRequired();
-
-        // Configure TPH (Table Per Hierarchy)
-        builder.HasDiscriminator<ProductType>(nameof(Product.ProductType))
-            .HasValue<Book>(ProductType.PhysicalBook)
-            .HasValue<Video>(ProductType.Video)
-            .HasValue<MembershipProduct>(ProductType.Membership);
+        // Configure TPT (Table Per Type) - map base product to Products table
+        builder.ToTable("Products");
     }
 }

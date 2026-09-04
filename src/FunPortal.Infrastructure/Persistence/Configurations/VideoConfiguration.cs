@@ -8,6 +8,8 @@ public class VideoConfiguration : IEntityTypeConfiguration<Video>
 {
     public void Configure(EntityTypeBuilder<Video> builder)
     {
+        // Map derived type to its own table (TPT)
+        builder.ToTable("Videos");
         builder.Property(e => e.Director)
             .HasMaxLength(200);
     }

@@ -8,6 +8,8 @@ public class MembershipProductConfiguration : IEntityTypeConfiguration<Membershi
 {
     public void Configure(EntityTypeBuilder<MembershipProduct> builder)
     {
+        // Map derived type to its own table (TPT)
+        builder.ToTable("MembershipProducts");
         builder.Property(e => e.DurationMonths)
             .IsRequired();
     }
