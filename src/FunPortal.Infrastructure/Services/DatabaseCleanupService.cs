@@ -23,16 +23,28 @@ namespace FunPortal.Infrastructure.Services
         {
             using PeriodicTimer timer = new(_period);
 
-            while (!stoppingToken.IsCancellationRequested
-                && await timer.WaitForNextTickAsync(stoppingToken))
+            while (!stoppingToken.IsCancellationRequested)
             {
                 try
                 {
+                    // Wait for the next tick; if the token is canceled this will throw OperationCanceledException
+                    if (!await timer.WaitForNextTickAsync(stoppingToken))
+                    {
+                        // Timer was disposed or completed; exit loop
+                        break;
+                    }
+
                     logger.LogInformation("Database cleanup started at: {time}", DateTimeOffset.Now);
 
                     await CleanupObsoleteTokensAsync(stoppingToken);
 
                     logger.LogInformation("Database cleanup completed successfully.");
+                }
+                catch (OperationCanceledException)
+                {
+                    // Graceful shutdown requested; exit loop
+                    logger.LogInformation("Database cleanup canceled.");
+                    break;
                 }
                 catch (Exception ex)
                 {
